@@ -1,51 +1,28 @@
-import { useMemo, useState } from 'react'
 import VideoCard from '../components/VideoCard'
+import { useLocaleContext } from '../context/LocaleContext'
 import useLocalCollection from '../hooks/useLocalCollection'
 
 type VideoEntry = {
   id: string
   title_en: string
+  title_mr: string
   youtubeLink: string
   thumbnail?: string
 }
 
 const skeletonItems = Array.from({ length: 4 })
 
-function extractYoutubeId(link: string) {
-  try {
-    const url = new URL(link)
-    if (url.hostname.includes('youtu.be')) {
-      return url.pathname.replace('/', '')
-    }
-    return url.searchParams.get('v') ?? ''
-  } catch (error) {
-    console.error('Invalid YouTube url', error)
-    return ''
-  }
-}
-
 export default function Videos() {
+  const { dict } = useLocaleContext()
   const { data: videos, loading } = useLocalCollection<VideoEntry>('videos')
-  const [activeVideo, setActiveVideo] = useState<string | null>(null)
-
-  const hydratedVideos = useMemo(
-    () =>
-      videos.map(video => ({
-        ...video,
-        youtubeId: extractYoutubeId(video.youtubeLink),
-      })),
-    [videos],
-  )
 
   return (
     <section className="section-wrapper">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-10">
-          <h1 className="section-heading">Videos</h1>
+        <header className="mb-10 animate-fadeIn">
+          <h1 className="section-heading">{dict.sections.videosTitle}</h1>
           <div className="gold-divider" />
-          <p className="text-primary/70">
-            Watch in-depth sessions, case studies, and client transformations that showcase the VastuAntara approach.
-          </p>
+          <p className="text-primary/70">{dict.sections.videosDescription}</p>
         </header>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -56,28 +33,16 @@ export default function Videos() {
                   <div className="mt-4 h-6 w-3/4 rounded-full bg-gray-200/60" />
                 </div>
               ))
-            : hydratedVideos.map(video => (
+            : videos.map(video => (
                 <VideoCard
                   key={video.id}
-                  title={video.title_en}
-                  youtubeId={video.youtubeId}
+                  title_en={video.title_en}
+                  title_mr={video.title_mr}
+                  youtubeLink={video.youtubeLink}
                   thumbnail={video.thumbnail}
-                  onPlay={setActiveVideo}
                 />
               ))}
         </div>
-
-        {activeVideo && (
-          <div className="mt-10 aspect-video overflow-hidden rounded-3xl border border-primary/20 shadow-soft-card">
-            <iframe
-              src={`https://www.youtube.com/embed/${activeVideo}`}
-              title="VastuAntara video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="h-full w-full"
-            />
-          </div>
-        )}
       </div>
     </section>
   )

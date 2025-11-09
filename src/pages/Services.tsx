@@ -1,28 +1,30 @@
 import ServiceCard from '../components/ServiceCard'
+import { useLocaleContext } from '../context/LocaleContext'
 import useLocalCollection from '../hooks/useLocalCollection'
 
 type ServiceEntry = {
   id: string
   slug: string
   title_en: string
+  title_mr: string
   description_en: string
+  description_mr: string
   image?: string
 }
 
 const skeletonItems = Array.from({ length: 4 })
 
 export default function Services() {
+  const { lang, dict } = useLocaleContext()
   const { data: services, loading } = useLocalCollection<ServiceEntry>('services')
 
   return (
     <section className="section-wrapper">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-10">
-          <h1 className="section-heading">Services</h1>
+        <header className="mb-10 animate-fadeIn">
+          <h1 className="section-heading">{dict.nav.services}</h1>
           <div className="gold-divider" />
-          <p className="text-primary/70">
-            Each offering is crafted with deep traditional insight and delivered with contemporary clarity.
-          </p>
+          <p className="text-primary/70">{dict.sections.servicesDescription}</p>
         </header>
         <div className="grid gap-6 md:grid-cols-2">
           {loading
@@ -38,8 +40,8 @@ export default function Services() {
                 <ServiceCard
                   key={service.id}
                   slug={service.slug}
-                  title={service.title_en}
-                  description={service.description_en}
+                  title={lang === 'en' ? service.title_en : service.title_mr}
+                  description={lang === 'en' ? service.description_en : service.description_mr}
                   image={service.image}
                 />
               ))}

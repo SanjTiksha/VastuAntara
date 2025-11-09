@@ -1,10 +1,12 @@
 import TestimonialCard from '../components/TestimonialCard'
+import { useLocaleContext } from '../context/LocaleContext'
 import useLocalCollection from '../hooks/useLocalCollection'
 
 type TestimonialEntry = {
   id: string
   name: string
   text_en: string
+  text_mr?: string
   rating?: number
   image?: string
 }
@@ -12,17 +14,16 @@ type TestimonialEntry = {
 const skeletonItems = Array.from({ length: 4 })
 
 export default function Testimonials() {
+  const { lang, dict } = useLocaleContext()
   const { data: testimonials, loading } = useLocalCollection<TestimonialEntry>('testimonials')
 
   return (
     <section className="section-wrapper">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-10 text-center">
-          <h1 className="section-heading">Client Testimonials</h1>
+        <header className="mb-10 text-center animate-fadeIn">
+          <h1 className="section-heading">{dict.sections.testimonialsTitle}</h1>
           <div className="mx-auto gold-divider" />
-          <p className="text-primary/70">
-            Real stories from families and organisations who experienced the VastuAntara difference.
-          </p>
+          <p className="text-primary/70">{dict.sections.testimonialsDescription}</p>
         </header>
         <div className="grid gap-6 md:grid-cols-2">
           {loading ? (
@@ -39,14 +40,14 @@ export default function Testimonials() {
               <TestimonialCard
                 key={item.id}
                 name={item.name}
-                message={item.text_en}
+                message={lang === 'en' ? item.text_en : item.text_mr ?? item.text_en}
                 rating={item.rating}
                 image={item.image}
               />
             ))
           ) : (
             <div className="card-surface p-6 text-center text-primary/60 md:col-span-2">
-              Testimonials will be added soon. Your success story could be next!
+              {dict.sections.testimonialsEmpty}
             </div>
           )}
         </div>

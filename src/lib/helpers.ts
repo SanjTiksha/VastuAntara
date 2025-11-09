@@ -22,3 +22,20 @@ export function formatPhoneNumber(phone: string) {
   return phone.replace(/(\d{5})(\d{5})/, '+91 $1 $2')
 }
 
+export function getYouTubeId(link: string) {
+  try {
+    const url = new URL(link)
+    if (url.hostname.includes('youtu.be')) {
+      return url.pathname.replace('/', '')
+    }
+    if (url.searchParams.has('v')) {
+      return url.searchParams.get('v') ?? link
+    }
+    const segments = url.pathname.split('/')
+    return segments.pop() ?? link
+  } catch (error) {
+    console.error('Unable to parse YouTube link', error)
+    return link
+  }
+}
+

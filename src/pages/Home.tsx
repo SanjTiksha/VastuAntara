@@ -3,27 +3,24 @@ import GalleryGrid from '../components/GalleryGrid'
 import HeroBanner from '../components/HeroBanner'
 import ServiceCard from '../components/ServiceCard'
 import TestimonialCard from '../components/TestimonialCard'
+import { useLocaleContext } from '../context/LocaleContext'
 import useLocalCollection from '../hooks/useLocalCollection'
 
 type ServiceEntry = {
   id: string
   slug: string
   title_en: string
+  title_mr: string
   description_en: string
+  description_mr: string
   image?: string
-}
-
-type GalleryEntry = {
-  id: string
-  title_en: string
-  category?: string
-  image: string
 }
 
 type TestimonialEntry = {
   id: string
   name: string
   text_en: string
+  text_mr?: string
   rating?: number
   image?: string
 }
@@ -31,8 +28,8 @@ type TestimonialEntry = {
 const skeletonItems = Array.from({ length: 3 })
 
 export default function Home() {
+  const { lang, dict } = useLocaleContext()
   const { data: services, loading: servicesLoading } = useLocalCollection<ServiceEntry>('services')
-  const { data: galleryItems, loading: galleryLoading } = useLocalCollection<GalleryEntry>('gallery')
   const { data: testimonials, loading: testimonialsLoading } =
     useLocalCollection<TestimonialEntry>('testimonials')
 
@@ -42,12 +39,10 @@ export default function Home() {
 
       <section className="section-wrapper bg-bgSoft">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <h2 className="section-heading">Our Core Services</h2>
+          <div className="mb-10 animate-fadeIn">
+            <h2 className="section-heading">{dict.sections.servicesTitle}</h2>
             <div className="gold-divider" />
-            <p className="text-primary/70">
-              Customised Vastu solutions that honour tradition while aligning with modern lifestyles.
-            </p>
+            <p className="text-primary/70">{dict.sections.servicesDescription}</p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {servicesLoading
@@ -63,8 +58,8 @@ export default function Home() {
                   <ServiceCard
                     key={service.id}
                     slug={service.slug}
-                    title={service.title_en}
-                    description={service.description_en}
+                    title={lang === 'en' ? service.title_en : service.title_mr}
+                    description={lang === 'en' ? service.description_en : service.description_mr}
                     image={service.image}
                   />
                 ))}
@@ -74,43 +69,21 @@ export default function Home() {
 
       <section className="section-wrapper">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <h2 className="section-heading">Gallery</h2>
+          <div className="mb-10 animate-fadeIn">
+            <h2 className="section-heading">{dict.sections.galleryTitle}</h2>
             <div className="gold-divider" />
-            <p className="text-primary/70">
-              Explore our curated collection of harmonised spaces and design inspirations.
-            </p>
+            <p className="text-primary/70">{dict.sections.galleryDescription}</p>
           </div>
-          {galleryLoading ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {skeletonItems.map((_, index) => (
-                <div key={`gallery-skeleton-${index}`} className="card-surface animate-pulse p-6">
-                  <div className="h-56 w-full rounded-3xl bg-gray-200/70" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <GalleryGrid
-              items={galleryItems.slice(0, 6).map(item => ({
-                id: item.id,
-                title: item.title_en,
-                image: item.image,
-                category: item.category,
-              }))}
-              categories={['home', 'office']}
-            />
-          )}
+          <GalleryGrid limit={6} />
         </div>
       </section>
 
       <section className="section-wrapper bg-bgSoft">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <h2 className="section-heading">Testimonials</h2>
+          <div className="mb-10 animate-fadeIn">
+            <h2 className="section-heading">{dict.sections.testimonialsTitle}</h2>
             <div className="gold-divider" />
-            <p className="text-primary/70">
-              The stories of transformation from our clients across homes, offices, and sacred spaces.
-            </p>
+            <p className="text-primary/70">{dict.sections.testimonialsDescription}</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             {testimonialsLoading ? (
@@ -126,15 +99,13 @@ export default function Home() {
                 <TestimonialCard
                   key={testimonial.id}
                   name={testimonial.name}
-                  message={testimonial.text_en}
+                  message={lang === 'en' ? testimonial.text_en : testimonial.text_mr ?? testimonial.text_en}
                   rating={testimonial.rating}
                   image={testimonial.image}
                 />
               ))
             ) : (
-              <div className="card-surface p-6 text-primary/60">
-                Testimonials are on their way. Stay tuned for inspiring stories.
-              </div>
+              <div className="card-surface p-6 text-primary/60">{dict.sections.testimonialsEmpty}</div>
             )}
           </div>
         </div>
@@ -142,12 +113,10 @@ export default function Home() {
 
       <section className="section-wrapper">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <h2 className="section-heading">Book a Consultation</h2>
+          <div className="mb-10 animate-fadeIn">
+            <h2 className="section-heading">{dict.sections.contactTitle}</h2>
             <div className="gold-divider" />
-            <p className="text-primary/70">
-              Share your details and our team will connect to craft a personalised Vastu roadmap.
-            </p>
+            <p className="text-primary/70">{dict.sections.contactDescription}</p>
           </div>
           <ContactForm />
         </div>

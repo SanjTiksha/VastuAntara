@@ -22,6 +22,15 @@ export default {
       borderRadius: {
         brand: '1.5rem',
       },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0, transform: 'translateY(12px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        fadeIn: 'fadeIn 0.6s ease-out both',
+      },
     },
   },
   plugins: [],

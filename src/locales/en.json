@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "gallery": "Gallery",
+    "videos": "Videos",
+    "blogs": "Blog",
+    "contact": "Contact"
+  },
+  "cta": {
+    "book": "Book Consultation"
+  },
+  "footer": {
+    "rights": "© 2025 VastuAntara. All rights reserved."
+  },
+  "loading": "Loading...",
+  "sections": {
+    "servicesTitle": "Our Core Services",
+    "servicesDescription": "Customised Vastu solutions that honour tradition while aligning with modern lifestyles.",
+    "galleryTitle": "Gallery",
+    "galleryDescription": "Explore our curated collection of harmonised spaces and design inspirations.",
+    "testimonialsTitle": "Testimonials",
+    "testimonialsDescription": "Stories of transformation from our clients across homes, offices, and sacred spaces.",
+    "contactTitle": "Book a Consultation",
+    "contactDescription": "Share your details and our team will connect to craft a personalised Vastu roadmap.",
+    "videosTitle": "Videos",
+    "videosDescription": "Watch in-depth sessions, case studies, and client transformations that showcase the VastuAntara approach.",
+    "galleryEmpty": "Gallery images will appear here soon.",
+    "testimonialsEmpty": "Testimonials will be added soon. Your success story could be next!"
+  }
+}
+

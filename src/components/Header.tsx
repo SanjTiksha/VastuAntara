@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import logoEn from '../assets/logo-en.png'
+import { useLocaleContext } from '../context/LocaleContext'
 import LanguageToggle from './LanguageToggle'
 
-const navItems = [
-  { to: '/', label: { en: 'Home', mr: 'मुख्यपृष्ठ' } },
-  { to: '/about', label: { en: 'About', mr: 'आमच्याबद्दल' } },
-  { to: '/services', label: { en: 'Services', mr: 'सेवा' } },
-  { to: '/gallery', label: { en: 'Gallery', mr: 'गॅलरी' } },
-  { to: '/videos', label: { en: 'Videos', mr: 'व्हिडिओ' } },
-  { to: '/blogs', label: { en: 'Blog', mr: 'ब्लॉग' } },
-  { to: '/contact', label: { en: 'Contact', mr: 'संपर्क' } },
+type NavKey = 'home' | 'about' | 'services' | 'gallery' | 'videos' | 'blogs' | 'contact'
+
+const navLinks: Array<{ to: string; key: NavKey }> = [
+  { to: '/', key: 'home' },
+  { to: '/about', key: 'about' },
+  { to: '/services', key: 'services' },
+  { to: '/gallery', key: 'gallery' },
+  { to: '/videos', key: 'videos' },
+  { to: '/blogs', key: 'blogs' },
+  { to: '/contact', key: 'contact' },
 ]
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { dict } = useLocaleContext()
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : ''
@@ -37,7 +41,7 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          {navItems.map(item => (
+          {navLinks.map(item => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -48,7 +52,7 @@ export default function Header() {
                 ].join(' ')
               }
             >
-              {item.label.en}
+              {dict.nav[item.key]}
             </NavLink>
           ))}
         </nav>
@@ -56,7 +60,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <LanguageToggle />
           <Link to="/contact" className="btn-primary hidden sm:inline-flex">
-            Book Consultation
+            {dict.cta.book}
           </Link>
           <button
             type="button"
@@ -75,18 +79,20 @@ export default function Header() {
           <div className="fixed inset-0 z-40 bg-black/40" onClick={() => setIsMenuOpen(false)} />
           <div className="brand-container fixed inset-y-0 right-0 z-50 w-4/5 max-w-xs overflow-y-auto bg-siteWhite p-6">
             <div className="mb-6 flex items-center justify-between">
-              <span className="text-sm font-semibold uppercase tracking-[0.3em] text-primary/70">Navigation</span>
+              <span className="text-sm font-semibold uppercase tracking-[0.3em] text-primary/70">
+                {dict.nav.home}
+              </span>
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(false)}
                 aria-label="Close navigation"
                 className="btn-secondary px-3 py-1 text-xs"
               >
-                Close
+                ✕
               </button>
             </div>
             <nav className="flex flex-col gap-3">
-              {navItems.map(item => (
+              {navLinks.map(item => (
                 <NavLink
                   key={item.to}
                   to={item.to}
@@ -98,11 +104,11 @@ export default function Header() {
                     ].join(' ')
                   }
                 >
-                  {item.label.en}
+                  {dict.nav[item.key]}
                 </NavLink>
               ))}
               <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="btn-primary mt-4 justify-center">
-                Book Consultation
+                {dict.cta.book}
               </Link>
             </nav>
           </div>

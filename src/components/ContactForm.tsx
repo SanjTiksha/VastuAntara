@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { useLocaleContext } from '../context/LocaleContext'
 import { firestore } from '../lib/firebase'
 
 interface ContactFormState {
@@ -18,9 +19,21 @@ const initialState: ContactFormState = {
 }
 
 export default function ContactForm() {
+  const { lang } = useLocaleContext()
   const [form, setForm] = useState<ContactFormState>(initialState)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [error, setError] = useState<string | null>(null)
+
+  const labels = {
+    name: lang === 'en' ? 'Name' : 'नाव',
+    email: lang === 'en' ? 'Email' : 'ईमेल',
+    phone: lang === 'en' ? 'Phone' : 'फोन',
+    message: lang === 'en' ? 'Message' : 'संदेश',
+    submit: lang === 'en' ? 'Submit' : 'सबमिट',
+    sending: lang === 'en' ? 'Sending...' : 'पाठवत आहोत...',
+    success: lang === 'en' ? 'Thank you! We will reach out shortly.' : 'धन्यवाद! आम्ही लवकरच संपर्क करू.',
+    error: lang === 'en' ? 'Something went wrong. Please try again.' : 'काहीतरी चुकले. कृपया पुन्हा प्रयत्न करा.',
+  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -38,7 +51,7 @@ export default function ContactForm() {
     } catch (err) {
       console.error(err)
       setStatus('error')
-      setError('Something went wrong. Please try again.')
+      setError(labels.error)
     }
   }
 
@@ -46,7 +59,7 @@ export default function ContactForm() {
     <form className="card-surface space-y-5 p-6" onSubmit={handleSubmit}>
       <div>
         <label className="mb-2 block text-sm font-semibold text-primary" htmlFor="contact-name">
-          Name
+          {labels.name}
         </label>
         <input
           id="contact-name"
@@ -60,7 +73,7 @@ export default function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label className="mb-2 block text-sm font-semibold text-primary" htmlFor="contact-email">
-            Email
+            {labels.email}
           </label>
           <input
             id="contact-email"
@@ -74,7 +87,7 @@ export default function ContactForm() {
         </div>
         <div>
           <label className="mb-2 block text-sm font-semibold text-primary" htmlFor="contact-phone">
-            Phone
+            {labels.phone}
           </label>
           <input
             id="contact-phone"
@@ -88,7 +101,7 @@ export default function ContactForm() {
       </div>
       <div>
         <label className="mb-2 block text-sm font-semibold text-primary" htmlFor="contact-message">
-          Message
+          {labels.message}
         </label>
         <textarea
           id="contact-message"
@@ -100,11 +113,9 @@ export default function ContactForm() {
         />
       </div>
       <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status === 'loading'}>
-        {status === 'loading' ? 'Sending...' : 'Submit'}
+        {status === 'loading' ? labels.sending : labels.submit}
       </button>
-      {status === 'success' && (
-        <p className="text-sm text-green-600">Thank you! We will reach out shortly.</p>
-      )}
+      {status === 'success' && <p className="text-sm text-green-600">{labels.success}</p>}
       {status === 'error' && error && <p className="text-sm text-red-600">{error}</p>}
     </form>
   )
