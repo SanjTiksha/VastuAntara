@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600&family=Hind:wght@400;500;600&family=Nunito:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-primary: #731B1B;
+  --color-accent: #C9A138;
+  --color-white: #FFFFFF;
+  --color-bg: #FAF9F7;
+}
+
+body {
+  @apply font-sans text-primary bg-bgSoft text-base antialiased;
+}
+
+.brand-container {
+  @apply border border-accent/60 rounded-brand bg-siteWhite/95 shadow-soft-card backdrop-blur-sm;
+}
+
+.gold-divider {
+  position: relative;
+  height: 4px;
+  width: 4.5rem;
+  margin-block: 1rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(201, 161, 56, 0.2), #c9a138, rgba(201, 161, 56, 0.2));
+  box-shadow: 0 0 12px rgba(201, 161, 56, 0.3);
+}
+
+.gold-divider::before,
+.gold-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(201, 161, 56, 0.4);
+}
+
+.gold-divider::before {
+  left: -14px;
+}
+
+.gold-divider::after {
+  right: -14px;
+}
+
+.logo-frame {
+  @apply inline-flex items-center justify-center rounded-brand border border-accent bg-white/90 p-3 shadow-soft-card;
+}
+
+.card-surface {
+  @apply bg-white rounded-3xl shadow-soft-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-siteWhite font-semibold transition-all duration-200 border border-transparent hover:border-accent hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-full border border-accent px-6 py-3 text-primary font-semibold transition-all duration-200 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
+}
+
+.section-wrapper {
+  @apply py-16 sm:py-20 lg:py-24 bg-white;
+}
+
+.section-heading {
+  @apply text-3xl md:text-4xl lg:text-5xl font-semibold text-primary tracking-tight;
+}
+

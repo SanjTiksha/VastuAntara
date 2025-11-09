@@ -1,0 +1,114 @@
+import { useEffect, useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+import logoEn from '../assets/logo-en.png'
+import LanguageToggle from './LanguageToggle'
+
+const navItems = [
+  { to: '/', label: { en: 'Home', mr: 'मुख्यपृष्ठ' } },
+  { to: '/about', label: { en: 'About', mr: 'आमच्याबद्दल' } },
+  { to: '/services', label: { en: 'Services', mr: 'सेवा' } },
+  { to: '/gallery', label: { en: 'Gallery', mr: 'गॅलरी' } },
+  { to: '/videos', label: { en: 'Videos', mr: 'व्हिडिओ' } },
+  { to: '/blogs', label: { en: 'Blog', mr: 'ब्लॉग' } },
+  { to: '/contact', label: { en: 'Contact', mr: 'संपर्क' } },
+]
+
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-primary/10 bg-white/90 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <Link to="/" className="logo-frame">
+          <div className="flex items-center gap-3">
+            <img src={logoEn} alt="VastuAntara Logo" className="h-10 w-auto rounded-xl object-contain" />
+            <div className="hidden flex-col text-primary sm:flex">
+              <span className="text-lg font-semibold tracking-wide">VastuAntara</span>
+              <span className="text-xs uppercase tracking-[0.3em] text-accent">Swasthya • Sampradaa • Sambandha</span>
+            </div>
+          </div>
+        </Link>
+
+        <nav className="hidden items-center gap-1 md:flex">
+          {navItems.map(item => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                [
+                  'rounded-full px-4 py-2 text-sm font-medium transition-colors',
+                  isActive ? 'bg-primary text-siteWhite shadow-soft-card' : 'text-primary hover:bg-primary/5',
+                ].join(' ')
+              }
+            >
+              {item.label.en}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <LanguageToggle />
+          <Link to="/contact" className="btn-primary hidden sm:inline-flex">
+            Book Consultation
+          </Link>
+          <button
+            type="button"
+            className="btn-secondary inline-flex items-center justify-center rounded-full px-3 py-2 text-sm md:hidden"
+            onClick={() => setIsMenuOpen(prev => !prev)}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden">
+          <div className="fixed inset-0 z-40 bg-black/40" onClick={() => setIsMenuOpen(false)} />
+          <div className="brand-container fixed inset-y-0 right-0 z-50 w-4/5 max-w-xs overflow-y-auto bg-siteWhite p-6">
+            <div className="mb-6 flex items-center justify-between">
+              <span className="text-sm font-semibold uppercase tracking-[0.3em] text-primary/70">Navigation</span>
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Close navigation"
+                className="btn-secondary px-3 py-1 text-xs"
+              >
+                Close
+              </button>
+            </div>
+            <nav className="flex flex-col gap-3">
+              {navItems.map(item => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={({ isActive }) =>
+                    [
+                      'rounded-full px-4 py-2 text-sm font-semibold transition-colors',
+                      isActive ? 'bg-primary text-siteWhite' : 'text-primary hover:bg-primary/10',
+                    ].join(' ')
+                  }
+                >
+                  {item.label.en}
+                </NavLink>
+              ))}
+              <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="btn-primary mt-4 justify-center">
+                Book Consultation
+              </Link>
+            </nav>
+          </div>
+        </div>
+      )}
+    </header>
+  )
+}
+
