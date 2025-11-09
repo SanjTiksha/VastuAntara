@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom'
 import companyInfo from '../data/companyInfo.json'
 import { useLocaleContext } from '../context/LocaleContext'
+import useLocalCollection from '../hooks/useLocalCollection'
+
+type GalleryEntry = {
+  id: string
+  image: string
+  title_en: string
+  title_mr: string
+}
 
 interface HeroBannerProps {
   backgroundImage?: string
@@ -9,6 +17,9 @@ interface HeroBannerProps {
 
 export default function HeroBanner({ backgroundImage, ctaLink = '/contact' }: HeroBannerProps) {
   const { lang, dict } = useLocaleContext()
+  const { data: galleryImages } = useLocalCollection<GalleryEntry>('gallery')
+  const collageImages = galleryImages.slice(0, 4)
+  const placeholderCount = Math.max(0, 4 - collageImages.length)
 
   const heading = lang === 'en' ? companyInfo.name_en : companyInfo.name_mr
   const subheading = lang === 'en' ? companyInfo.tagline_en : companyInfo.tagline_mr
@@ -56,11 +67,17 @@ export default function HeroBanner({ backgroundImage, ctaLink = '/contact' }: He
 
         <div className="relative w-full rounded-[2.5rem] border border-accent/40 bg-siteWhite p-6 shadow-soft-card md:p-10 animate-fadeIn">
           <div className="grid grid-cols-2 gap-3">
-            {Array.from({ length: 6 }).map((_, idx) => (
-              <div
-                key={idx}
-                className="aspect-square rounded-3xl bg-primary/5 backdrop-blur-sm transition duration-500 hover:scale-105 hover:bg-primary/10"
+            {collageImages.map(item => (
+              <img
+                key={item.id}
+                src={`${item.image}&auto=compress&cs=tinysrgb&w=500&fit=crop`}
+                alt={lang === 'en' ? item.title_en : item.title_mr}
+                className="aspect-square rounded-3xl object-cover transition duration-500 hover:scale-105"
+                loading="lazy"
               />
+            ))}
+            {Array.from({ length: placeholderCount }).map((_, idx) => (
+              <div key={`placeholder-${idx}`} className="aspect-square animate-pulse rounded-3xl bg-gray-200/60" />
             ))}
           </div>
           <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] border border-primary/5" />
