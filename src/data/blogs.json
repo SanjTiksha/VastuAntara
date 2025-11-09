@@ -1,2 +1,36 @@
-[]
+[
+  {
+    "id": "1",
+    "slug": "vastu-entrance-rituals",
+    "title_en": "Vastu Entrance Rituals for Inviting Prosperity",
+    "title_mr": "समृद्धीसाठी वास्तु प्रवेश विधी",
+    "content_en": "<p>Discover the sacred practices that activate positivity at your main door and set the tone for abundance.</p>",
+    "content_mr": "<p>मुख्य दरवाज्यासाठी सकारात्मक ऊर्जा जागृत करणारे पवित्र विधी जाणून घ्या आणि समृद्धीसाठी स्वर निर्माण करा.</p>",
+    "image": "https://images.pexels.com/photos/703140/pexels-photo-703140.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "published": true,
+    "createdAt": "2024-12-01T10:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "slug": "five-elements-balancing-home",
+    "title_en": "Balancing the Five Elements in Your Home",
+    "title_mr": "आपल्या घरातील पाच तत्वांचे संतुलन",
+    "content_en": "<p>Practical tips to harmonize earth, water, fire, air, and space across each room using simple décor changes.</p>",
+    "content_mr": "<p>सोप्या सजावटीच्या बदलांद्वारे प्रत्येक खोलीत पृथ्वी, जल, अग्नी, वायू आणि आकाश यांचे संतुलन साधण्यासाठी उपयुक्त टिप्स.</p>",
+    "image": "https://images.pexels.com/photos/1571730/pexels-photo-1571730.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "published": true,
+    "createdAt": "2025-01-12T09:30:00.000Z"
+  },
+  {
+    "id": "3",
+    "slug": "workspace-energy-reset",
+    "title_en": "Workspace Energy Reset Checklist",
+    "title_mr": "कार्यस्थळ ऊर्जा पुनर्संचयित चेकलिस्ट",
+    "content_en": "<p>Use this checklist to refresh your office layout, lighting, and seating so productivity flows with ease.</p>",
+    "content_mr": "<p>ऑफिसचे लेआउट, प्रकाशयोजना आणि बसण्याची व्यवस्था नव्याने करून सहजपणे उत्पादकता वाढवण्यासाठी ही चेकलिस्ट वापरा.</p>",
+    "image": "https://images.pexels.com/photos/3184640/pexels-photo-3184640.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "published": true,
+    "createdAt": "2025-02-05T14:15:00.000Z"
+  }
+]
 

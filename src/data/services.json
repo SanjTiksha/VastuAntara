@@ -6,7 +6,7 @@
     "title_mr": "रेसिडेन्शियल वास्तु",
     "description_en": "Guidance for homes and apartments to balance energy flow.",
     "description_mr": "घर आणि अपार्टमेंटमध्ये उर्जेचा संतुलन साधण्यासाठी वास्तु मार्गदर्शन.",
-    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
+    "image": "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=900",
     "order": 1
   },
   {
@@ -16,8 +16,28 @@
     "title_mr": "कमर्शियल वास्तु",
     "description_en": "Optimizing prosperity and harmony in workplaces and shops.",
     "description_mr": "कार्यालय आणि दुकानांसाठी समृद्धी आणि सामंजस्य वाढविण्यासाठी वास्तु उपाय.",
-    "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
+    "image": "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=900",
     "order": 2
+  },
+  {
+    "id": "3",
+    "slug": "plot-evaluation",
+    "title_en": "Plot Evaluation",
+    "title_mr": "जमिनीचे मूल्यांकन",
+    "description_en": "Scientific assessment of land parcels to ensure long-term wellbeing and growth.",
+    "description_mr": "दीर्घकालीन कल्याण आणि प्रगती सुनिश्चित करण्यासाठी जमिनीचे वैज्ञानिक मूल्यांकन.",
+    "image": "https://images.pexels.com/photos/5417299/pexels-photo-5417299.jpeg?auto=compress&cs=tinysrgb&w=900",
+    "order": 3
+  },
+  {
+    "id": "4",
+    "slug": "interior-alignment",
+    "title_en": "Interior Alignment",
+    "title_mr": "आंतरिक संतुलन",
+    "description_en": "Room-by-room styling recommendations that align interiors with elemental balance.",
+    "description_mr": "प्रत्येक खोलीसाठी तत्व संतुलन साधणाऱ्या अंतर्गत सजावटीच्या शिफारसी.",
+    "image": "https://images.pexels.com/photos/695832/pexels-photo-695832.jpeg?auto=compress&cs=tinysrgb&w=900",
+    "order": 4
   }
 ]
 

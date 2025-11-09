@@ -4,14 +4,35 @@
     "title_en": "Modern Home Vastu",
     "title_mr": "आधुनिक घर वास्तु",
     "category": "home",
-    "image": "https://images.unsplash.com/photo-1560184897-91b8b3b0df4a?w=800"
+    "image": "https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg?auto=compress&cs=tinysrgb&w=900"
   },
   {
     "id": "2",
     "title_en": "Office Interior",
     "title_mr": "ऑफिस अंतर्गत सजावट",
     "category": "office",
-    "image": "https://images.unsplash.com/photo-1557683316-973673baf926?w=800"
+    "image": "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=900"
+  },
+  {
+    "id": "3",
+    "title_en": "Meditation Studio",
+    "title_mr": "ध्यान कक्ष",
+    "category": "wellness",
+    "image": "https://images.pexels.com/photos/3822625/pexels-photo-3822625.jpeg?auto=compress&cs=tinysrgb&w=900"
+  },
+  {
+    "id": "4",
+    "title_en": "Luxury Villa Entrance",
+    "title_mr": "लक्झरी विला प्रवेशद्वार",
+    "category": "home",
+    "image": "https://images.pexels.com/photos/3078488/pexels-photo-3078488.jpeg?auto=compress&cs=tinysrgb&w=900"
+  },
+  {
+    "id": "5",
+    "title_en": "Team Collaboration Zone",
+    "title_mr": "सहकार्य झोन",
+    "category": "office",
+    "image": "https://images.pexels.com/photos/3182743/pexels-photo-3182743.jpeg?auto=compress&cs=tinysrgb&w=900"
   }
 ]
 
