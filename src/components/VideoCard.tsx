@@ -56,13 +56,14 @@ export default function VideoCard({ title_en, title_mr, youtubeLink, thumbnail }
         className="max-w-4xl mx-4 md:mx-auto bg-white p-4 sm:p-6 rounded-2xl shadow-xl outline-none border-2 border-accent/40"
         overlayClassName="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4"
       >
-        <div className="relative w-full overflow-hidden rounded-xl" style={{ paddingTop: '56.25%' }}>
+        <div className="relative w-full overflow-hidden rounded-xl bg-black" style={{ paddingTop: '56.25%' }}>
           <iframe
             className="absolute left-0 top-0 h-full w-full rounded-xl"
-            src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}
+            src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1`}
             title={translatedTitle}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
+            frameBorder="0"
             referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
