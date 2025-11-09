@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useLocaleContext } from '../context/LocaleContext'
-import { firestore } from '../lib/firebase'
+import { firestore, hasFirebaseConfig } from '../lib/firebase'
 
 interface ContactFormState {
   name: string
@@ -41,11 +41,17 @@ export default function ContactForm() {
     setError(null)
 
     try {
-      await addDoc(collection(firestore, 'messages'), {
-        ...form,
-        createdAt: serverTimestamp(),
-        status: 'new',
-      })
+      if (hasFirebaseConfig && firestore) {
+        await addDoc(collection(firestore, 'messages'), {
+          ...form,
+          createdAt: serverTimestamp(),
+          status: 'new',
+        })
+      } else {
+        console.info(
+          '[contact] Firebase not configured; form submission stored locally only. Provide VITE_FIREBASE_* vars to enable Firestore writes.',
+        )
+      }
       setForm(initialState)
       setStatus('success')
     } catch (err) {

@@ -14,6 +14,11 @@ export default function useFirestoreDoc<T = Record<string, unknown>>(collectionN
       return
     }
 
+    if (!firestore) {
+      setLoading(false)
+      return
+    }
+
     const ref = doc(firestore, collectionName, docId)
 
     const unsubscribe = onSnapshot(

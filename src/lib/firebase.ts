@@ -1,6 +1,7 @@
+import type { FirebaseApp } from 'firebase/app'
 import { initializeApp, getApps } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getFirestore, type Firestore } from 'firebase/firestore'
+import { getAuth, GoogleAuthProvider, type Auth } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,9 +12,36 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
+const requiredKeys: Array<keyof typeof firebaseConfig> = [
+  'apiKey',
+  'authDomain',
+  'projectId',
+  'appId',
+]
 
-export const firestore = getFirestore(app)
-export const auth = getAuth(app)
-export const googleProvider = new GoogleAuthProvider()
+const hasFirebaseConfig = requiredKeys.every(key => {
+  const value = firebaseConfig[key]
+  return typeof value === 'string' && value.length > 0 && !value.startsWith('VITE_')
+})
+
+let app: FirebaseApp | undefined
+let firestoreInstance: Firestore | null = null
+let authInstance: Auth | null = null
+let googleProviderInstance: GoogleAuthProvider | null = null
+
+if (hasFirebaseConfig) {
+  app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
+  firestoreInstance = getFirestore(app)
+  authInstance = getAuth(app)
+  googleProviderInstance = new GoogleAuthProvider()
+} else if (import.meta.env.DEV) {
+  console.warn(
+    '[firebase] Missing configuration. Firebase services are disabled. Add VITE_FIREBASE_* variables to enable auth and Firestore.',
+  )
+}
+
+export { hasFirebaseConfig }
+export const firestore = firestoreInstance
+export const auth = authInstance
+export const googleProvider = googleProviderInstance
 

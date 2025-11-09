@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { collection, onSnapshot, orderBy, query, QueryConstraint } from 'firebase/firestore'
+import { collection, onSnapshot, orderBy, query, type QueryConstraint } from 'firebase/firestore'
 import { firestore } from '../lib/firebase'
 
 export interface FirestoreCollectionOptions {
@@ -17,6 +17,11 @@ export default function useFirestoreCollection<T = Record<string, unknown>>(
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
+    if (!firestore) {
+      setLoading(false)
+      return
+    }
+
     const baseRef = collection(firestore, collectionName)
     const finalQuery =
       orderField && orderField.length > 0
