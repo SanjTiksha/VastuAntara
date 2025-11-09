@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "title_en": "Modern Home Vastu",
+    "title_mr": "आधुनिक घर वास्तु",
+    "category": "home",
+    "image": "https://images.unsplash.com/photo-1560184897-91b8b3b0df4a?w=800"
+  },
+  {
+    "id": "2",
+    "title_en": "Office Interior",
+    "title_mr": "ऑफिस अंतर्गत सजावट",
+    "category": "office",
+    "image": "https://images.unsplash.com/photo-1557683316-973673baf926?w=800"
+  }
+]
+

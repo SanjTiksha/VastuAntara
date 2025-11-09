@@ -1,13 +1,41 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import VideoCard from '../components/VideoCard'
+import useLocalCollection from '../hooks/useLocalCollection'
 
-const sampleVideos = [
-  { id: '1', title: 'Vastu for Peaceful Homes', youtubeId: 'dQw4w9WgXcQ' },
-  { id: '2', title: 'Aligning Office Energies', youtubeId: 'M7lc1UVf-VE' },
-]
+type VideoEntry = {
+  id: string
+  title_en: string
+  youtubeLink: string
+  thumbnail?: string
+}
+
+const skeletonItems = Array.from({ length: 4 })
+
+function extractYoutubeId(link: string) {
+  try {
+    const url = new URL(link)
+    if (url.hostname.includes('youtu.be')) {
+      return url.pathname.replace('/', '')
+    }
+    return url.searchParams.get('v') ?? ''
+  } catch (error) {
+    console.error('Invalid YouTube url', error)
+    return ''
+  }
+}
 
 export default function Videos() {
+  const { data: videos, loading } = useLocalCollection<VideoEntry>('videos')
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
+
+  const hydratedVideos = useMemo(
+    () =>
+      videos.map(video => ({
+        ...video,
+        youtubeId: extractYoutubeId(video.youtubeLink),
+      })),
+    [videos],
+  )
 
   return (
     <section className="section-wrapper">
@@ -16,19 +44,29 @@ export default function Videos() {
           <h1 className="section-heading">Videos</h1>
           <div className="gold-divider" />
           <p className="text-primary/70">
-            Watch in-depth sessions, case studies, and client transformations. Content will sync with Firestore.
+            Watch in-depth sessions, case studies, and client transformations that showcase the VastuAntara approach.
           </p>
         </header>
+
         <div className="grid gap-6 md:grid-cols-2">
-          {sampleVideos.map(video => (
-            <VideoCard
-              key={video.id}
-              title={video.title}
-              youtubeId={video.youtubeId}
-              onPlay={setActiveVideo}
-            />
-          ))}
+          {loading
+            ? skeletonItems.map((_, index) => (
+                <div key={`video-skeleton-${index}`} className="card-surface animate-pulse p-6">
+                  <div className="h-40 w-full rounded-3xl bg-gray-200/70" />
+                  <div className="mt-4 h-6 w-3/4 rounded-full bg-gray-200/60" />
+                </div>
+              ))
+            : hydratedVideos.map(video => (
+                <VideoCard
+                  key={video.id}
+                  title={video.title_en}
+                  youtubeId={video.youtubeId}
+                  thumbnail={video.thumbnail}
+                  onPlay={setActiveVideo}
+                />
+              ))}
         </div>
+
         {activeVideo && (
           <div className="mt-10 aspect-video overflow-hidden rounded-3xl border border-primary/20 shadow-soft-card">
             <iframe

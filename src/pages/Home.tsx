@@ -1,61 +1,41 @@
+import ContactForm from '../components/ContactForm'
+import GalleryGrid from '../components/GalleryGrid'
 import HeroBanner from '../components/HeroBanner'
 import ServiceCard from '../components/ServiceCard'
-import GalleryGrid from '../components/GalleryGrid'
 import TestimonialCard from '../components/TestimonialCard'
-import ContactForm from '../components/ContactForm'
+import useLocalCollection from '../hooks/useLocalCollection'
 
-const mockServices = [
-  {
-    id: '1',
-    slug: 'residential-vastu',
-    title: 'Residential Vastu',
-    description: 'Balanced homes aligned with the five elements for harmony and prosperity.',
-  },
-  {
-    id: '2',
-    slug: 'commercial-vastu',
-    title: 'Commercial Vastu',
-    description: 'Energise your business spaces to attract growth and stability.',
-  },
-  {
-    id: '3',
-    slug: 'plot-selection',
-    title: 'Plot Selection',
-    description: 'Detailed analysis for selecting auspicious plots for new constructions.',
-  },
-]
+type ServiceEntry = {
+  id: string
+  slug: string
+  title_en: string
+  description_en: string
+  image?: string
+}
 
-const mockGallery = [
-  {
-    id: 'g1',
-    title: 'Sacred Puja Room',
-    image: '',
-    category: 'home',
-  },
-  {
-    id: 'g2',
-    title: 'Meditation Corner',
-    image: '',
-    category: 'home',
-  },
-]
+type GalleryEntry = {
+  id: string
+  title_en: string
+  category?: string
+  image: string
+}
 
-const mockTestimonials = [
-  {
-    id: 't1',
-    name: 'Sanjana Kulkarni',
-    message:
-      'Our home feels vibrant and peaceful after the consultation. The guidance was practical and deeply insightful.',
-  },
-  {
-    id: 't2',
-    name: 'Rajat Deshpande',
-    message:
-      'The energy shift in our office is remarkable. Productivity and morale have both improved significantly.',
-  },
-]
+type TestimonialEntry = {
+  id: string
+  name: string
+  text_en: string
+  rating?: number
+  image?: string
+}
+
+const skeletonItems = Array.from({ length: 3 })
 
 export default function Home() {
+  const { data: services, loading: servicesLoading } = useLocalCollection<ServiceEntry>('services')
+  const { data: galleryItems, loading: galleryLoading } = useLocalCollection<GalleryEntry>('gallery')
+  const { data: testimonials, loading: testimonialsLoading } =
+    useLocalCollection<TestimonialEntry>('testimonials')
+
   return (
     <main>
       <HeroBanner />
@@ -70,9 +50,24 @@ export default function Home() {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {mockServices.map(service => (
-              <ServiceCard key={service.id} {...service} image="" />
-            ))}
+            {servicesLoading
+              ? skeletonItems.map((_, index) => (
+                  <div key={`service-skeleton-${index}`} className="card-surface h-full animate-pulse p-6">
+                    <div className="mb-4 h-40 w-full rounded-3xl bg-gray-200/70" />
+                    <div className="h-6 w-2/3 rounded-full bg-gray-200/70" />
+                    <div className="mt-3 h-4 w-full rounded-full bg-gray-200/50" />
+                    <div className="mt-2 h-4 w-5/6 rounded-full bg-gray-200/50" />
+                  </div>
+                ))
+              : services.slice(0, 3).map(service => (
+                  <ServiceCard
+                    key={service.id}
+                    slug={service.slug}
+                    title={service.title_en}
+                    description={service.description_en}
+                    image={service.image}
+                  />
+                ))}
           </div>
         </div>
       </section>
@@ -86,7 +81,25 @@ export default function Home() {
               Explore our curated collection of harmonised spaces and design inspirations.
             </p>
           </div>
-          <GalleryGrid items={mockGallery} categories={['home', 'office']} />
+          {galleryLoading ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {skeletonItems.map((_, index) => (
+                <div key={`gallery-skeleton-${index}`} className="card-surface animate-pulse p-6">
+                  <div className="h-56 w-full rounded-3xl bg-gray-200/70" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <GalleryGrid
+              items={galleryItems.slice(0, 6).map(item => ({
+                id: item.id,
+                title: item.title_en,
+                image: item.image,
+                category: item.category,
+              }))}
+              categories={['home', 'office']}
+            />
+          )}
         </div>
       </section>
 
@@ -100,9 +113,29 @@ export default function Home() {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
-            {mockTestimonials.map(testimonial => (
-              <TestimonialCard key={testimonial.id} name={testimonial.name} message={testimonial.message} />
-            ))}
+            {testimonialsLoading ? (
+              skeletonItems.slice(0, 2).map((_, index) => (
+                <div key={`testimonial-skeleton-${index}`} className="card-surface animate-pulse p-6">
+                  <div className="h-20 w-full rounded-3xl bg-gray-200/70" />
+                  <div className="mt-4 h-4 w-2/3 rounded-full bg-gray-200/60" />
+                  <div className="mt-2 h-4 w-5/6 rounded-full bg-gray-200/50" />
+                </div>
+              ))
+            ) : testimonials.length > 0 ? (
+              testimonials.slice(0, 2).map(testimonial => (
+                <TestimonialCard
+                  key={testimonial.id}
+                  name={testimonial.name}
+                  message={testimonial.text_en}
+                  rating={testimonial.rating}
+                  image={testimonial.image}
+                />
+              ))
+            ) : (
+              <div className="card-surface p-6 text-primary/60">
+                Testimonials are on their way. Stay tuned for inspiring stories.
+              </div>
+            )}
           </div>
         </div>
       </section>

@@ -1,24 +1,19 @@
 import TestimonialCard from '../components/TestimonialCard'
+import useLocalCollection from '../hooks/useLocalCollection'
 
-const testimonials = [
-  {
-    id: '1',
-    name: 'Amit Joshi',
-    message: 'Our family has experienced a profound sense of calm after adapting the recommended changes.',
-  },
-  {
-    id: '2',
-    name: 'Meera Patil',
-    message: 'Their guidance helped us re-energise our workspace; team morale is higher than ever.',
-  },
-  {
-    id: '3',
-    name: 'Chaitanya Rao',
-    message: 'A perfect blend of tradition and practical modern advice. Truly transformative.',
-  },
-]
+type TestimonialEntry = {
+  id: string
+  name: string
+  text_en: string
+  rating?: number
+  image?: string
+}
+
+const skeletonItems = Array.from({ length: 4 })
 
 export default function Testimonials() {
+  const { data: testimonials, loading } = useLocalCollection<TestimonialEntry>('testimonials')
+
   return (
     <section className="section-wrapper">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -30,9 +25,30 @@ export default function Testimonials() {
           </p>
         </header>
         <div className="grid gap-6 md:grid-cols-2">
-          {testimonials.map(item => (
-            <TestimonialCard key={item.id} name={item.name} message={item.message} />
-          ))}
+          {loading ? (
+            skeletonItems.map((_, index) => (
+              <div key={`testimonial-skeleton-${index}`} className="card-surface animate-pulse p-6">
+                <div className="h-16 w-16 rounded-full bg-gray-200/70" />
+                <div className="mt-4 h-5 w-1/2 rounded-full bg-gray-200/60" />
+                <div className="mt-2 h-4 w-full rounded-full bg-gray-200/50" />
+                <div className="mt-2 h-4 w-5/6 rounded-full bg-gray-200/40" />
+              </div>
+            ))
+          ) : testimonials.length > 0 ? (
+            testimonials.map(item => (
+              <TestimonialCard
+                key={item.id}
+                name={item.name}
+                message={item.text_en}
+                rating={item.rating}
+                image={item.image}
+              />
+            ))
+          ) : (
+            <div className="card-surface p-6 text-center text-primary/60 md:col-span-2">
+              Testimonials will be added soon. Your success story could be next!
+            </div>
+          )}
         </div>
       </div>
     </section>

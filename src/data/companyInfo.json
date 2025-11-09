@@ -1,0 +1,16 @@
+{
+  "name_en": "VastuAntara",
+  "name_mr": "वास्तुअंतरा",
+  "tagline_en": "Swasthya | Sampradaa | Sambandha",
+  "tagline_mr": "स्वास्थ्य | संप्रदा | संबंध",
+  "address": "Pune, Maharashtra, India",
+  "phone": "+91-9876543210",
+  "email": "info@vastuantara.in",
+  "mapEmbedUrl": "https://maps.google.com/...",
+  "social": {
+    "facebook": "https://facebook.com/",
+    "youtube": "https://youtube.com/",
+    "whatsapp": "https://wa.me/919876543210"
+  }
+}
+

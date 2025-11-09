@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "slug": "residential-vastu",
+    "title_en": "Residential Vastu",
+    "title_mr": "रेसिडेन्शियल वास्तु",
+    "description_en": "Guidance for homes and apartments to balance energy flow.",
+    "description_mr": "घर आणि अपार्टमेंटमध्ये उर्जेचा संतुलन साधण्यासाठी वास्तु मार्गदर्शन.",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
+    "order": 1
+  },
+  {
+    "id": "2",
+    "slug": "commercial-vastu",
+    "title_en": "Commercial Vastu",
+    "title_mr": "कमर्शियल वास्तु",
+    "description_en": "Optimizing prosperity and harmony in workplaces and shops.",
+    "description_mr": "कार्यालय आणि दुकानांसाठी समृद्धी आणि सामंजस्य वाढविण्यासाठी वास्तु उपाय.",
+    "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
+    "order": 2
+  }
+]
+
