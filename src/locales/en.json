@@ -14,6 +14,68 @@
   "footer": {
     "rights": "© 2025 VastuAntara. All rights reserved."
   },
+  "meta": {
+    "siteName": "VastuAntara",
+    "defaultImage": "/images/social-preview.png",
+    "homeTitle": "Holistic Vastu for Harmonious Living",
+    "homeDescription": "Experience bespoke Vastu guidance that blends tradition and modern design for homes, offices, and sacred spaces.",
+    "aboutTitle": "About Our Vastu Philosophy",
+    "aboutDescription": "Discover the story, philosophy, and team behind VastuAntara’s integrated approach to balanced environments.",
+    "servicesTitle": "Vastu Services for Homes and Businesses",
+    "servicesDescription": "Explore consultations, on-site audits, and personalised remedies crafted for residential and commercial spaces.",
+    "serviceDetailDescription": "In-depth Vastu service insight and remedies tailored to your unique space and intentions.",
+    "galleryTitle": "Curated Vastu Design Gallery",
+    "galleryDescription": "Browse transformations across homes, offices, and spiritual spaces showcasing the VastuAntara touch.",
+    "videosTitle": "VastuAntara Video Library",
+    "videosDescription": "Stream practical Vastu tips, client stories, and expert talks delivered in Marathi and English.",
+    "blogsTitle": "Vastu Insights & Learning Hub",
+    "blogsDescription": "Read actionable Vastu guidance, case studies, and rituals inspired by real consultations.",
+    "blogDetailDescription": "Dive deeper into the concepts and remedies that empower your Vastu journey.",
+    "testimonialsTitle": "Client Testimonials",
+    "testimonialsDescription": "Hear from homeowners and businesses who achieved balance with VastuAntara.",
+    "contactTitle": "Book Your Vastu Consultation",
+    "contactDescription": "Reach out to plan a personalised Vastu consultation and align your space with prosperity.",
+    "notFoundTitle": "Page Not Found",
+    "notFoundDescription": "The page you’re looking for has moved. Discover more Vastu resources across our site."
+  },
+  "videos": {
+    "shortCaption": "Tap play to explore quick Vastu guidance."
+  },
+  "gallery": {
+    "navigationHint": "Use arrow keys or buttons to explore more imagery.",
+    "prev": "Previous image",
+    "next": "Next image"
+  },
+  "blog": {
+    "tagInsights": "Insights",
+    "readTime": "{{minutes}} min read"
+  },
+  "contactPage": {
+    "title": "Contact VastuAntara",
+    "description": "Share your enquiry and we will respond with a personalised Vastu consultation plan within 24 hours.",
+    "whatsappCta": "Prefer WhatsApp? Start a quick chat.",
+    "whatsappButton": "Chat on WhatsApp",
+    "form": {
+      "title": "Reach VastuAntara",
+      "subtitle": "Share your details and we’ll connect with you personally on WhatsApp within 24 hours.",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Optional",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "e.g. 9876543210",
+      "purposeLabel": "Purpose",
+      "purposeOptions": {
+        "general": "General Enquiry",
+        "consultation": "Book Consultation",
+        "advice": "Vastu Advice",
+        "business": "Business Collaboration"
+      },
+      "messageLabel": "Message",
+      "messagePlaceholder": "Tell us about your space or question...",
+      "submit": "Send via WhatsApp",
+      "toast": "Opening WhatsApp to send your enquiry ✨"
+    }
+  },
   "loading": "Loading...",
   "sections": {
     "servicesTitle": "Our Core Services",
@@ -22,6 +84,9 @@
     "galleryDescription": "Explore our curated collection of harmonised spaces and design inspirations.",
     "testimonialsTitle": "Testimonials",
     "testimonialsDescription": "Stories of transformation from our clients across homes, offices, and sacred spaces.",
+    "blogsTitle": "Blog",
+    "blogsDescription": "Insights, case studies, and Vastu wisdom curated from recent consultations.",
+    "blogsEmpty": "Articles will be published here soon.",
     "contactTitle": "Book a Consultation",
     "contactDescription": "Share your details and our team will connect to craft a personalised Vastu roadmap.",
     "videosTitle": "Videos",

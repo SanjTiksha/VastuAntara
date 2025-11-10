@@ -8,7 +8,8 @@
     "content_mr": "<p>मुख्य दरवाज्यासाठी सकारात्मक ऊर्जा जागृत करणारे पवित्र विधी जाणून घ्या आणि समृद्धीसाठी स्वर निर्माण करा.</p>",
     "image": "https://images.pexels.com/photos/703140/pexels-photo-703140.jpeg?auto=compress&cs=tinysrgb&w=1200",
     "published": true,
-    "createdAt": "2024-12-01T10:00:00.000Z"
+    "createdAt": "2024-12-01T10:00:00.000Z",
+    "category": "Rituals"
   },
   {
     "id": "2",
@@ -19,7 +20,8 @@
     "content_mr": "<p>सोप्या सजावटीच्या बदलांद्वारे प्रत्येक खोलीत पृथ्वी, जल, अग्नी, वायू आणि आकाश यांचे संतुलन साधण्यासाठी उपयुक्त टिप्स.</p>",
     "image": "https://images.pexels.com/photos/1571730/pexels-photo-1571730.jpeg?auto=compress&cs=tinysrgb&w=1200",
     "published": true,
-    "createdAt": "2025-01-12T09:30:00.000Z"
+    "createdAt": "2025-01-12T09:30:00.000Z",
+    "category": "Elements"
   },
   {
     "id": "3",
@@ -30,7 +32,8 @@
     "content_mr": "<p>ऑफिसचे लेआउट, प्रकाशयोजना आणि बसण्याची व्यवस्था नव्याने करून सहजपणे उत्पादकता वाढवण्यासाठी ही चेकलिस्ट वापरा.</p>",
     "image": "https://images.pexels.com/photos/3184640/pexels-photo-3184640.jpeg?auto=compress&cs=tinysrgb&w=1200",
     "published": true,
-    "createdAt": "2025-02-05T14:15:00.000Z"
+    "createdAt": "2025-02-05T14:15:00.000Z",
+    "category": "Workspace"
   }
 ]
 

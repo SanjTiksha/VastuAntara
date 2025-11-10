@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
-import companyInfo from '../data/companyInfo.json'
 import { useLocaleContext } from '../context/LocaleContext'
-import useLocalCollection from '../hooks/useLocalCollection'
+import useFirestoreCollection from '../hooks/useFirestoreCollection'
+import useFirestoreDoc from '../hooks/useFirestoreDoc'
+import type { CompanyInfo } from '../types/company'
+import { withImageParams } from '../lib/helpers'
 
 type GalleryEntry = {
   id: string
@@ -11,76 +13,71 @@ type GalleryEntry = {
 }
 
 interface HeroBannerProps {
-  backgroundImage?: string
   ctaLink?: string
 }
 
-export default function HeroBanner({ backgroundImage, ctaLink = '/contact' }: HeroBannerProps) {
+export default function HeroBanner({ ctaLink = '/contact' }: HeroBannerProps) {
   const { lang, dict } = useLocaleContext()
-  const { data: galleryImages } = useLocalCollection<GalleryEntry>('gallery')
+  const { data: galleryImages } = useFirestoreCollection<GalleryEntry>('gallery', { orderField: null })
+  const { data: companyInfo } = useFirestoreDoc<CompanyInfo>('companyInfo', 'default')
   const collageImages = galleryImages.slice(0, 4)
   const placeholderCount = Math.max(0, 4 - collageImages.length)
 
-  const heading = lang === 'en' ? companyInfo.name_en : companyInfo.name_mr
-  const subheading = lang === 'en' ? companyInfo.tagline_en : companyInfo.tagline_mr
+  const heading =
+    lang === 'en' ? companyInfo?.name_en ?? 'VastuAntara' : companyInfo?.name_mr ?? 'वास्तुअंतरा'
+  const subheading =
+    lang === 'en'
+      ? companyInfo?.tagline_en ?? 'Swasthya | Sampradaa | Sambandha'
+      : companyInfo?.tagline_mr ?? 'स्वास्थ्य | संप्रदा | संबंध'
   const description =
     lang === 'en'
       ? 'Transforming spaces into sanctuaries of balance and prosperity through personalised Vastu guidance.'
       : 'वैयक्तिक वास्तु मार्गदर्शनाद्वारे जागांना संतुलित व समृद्ध अनुभव देण्याची प्रक्रिया.'
 
   return (
-    <section className="relative overflow-hidden bg-bgSoft">
-      <div className="absolute inset-0 -z-10 hidden md:block" aria-hidden>
-        <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-br from-accent/20 via-accent/5 to-transparent" />
-        <div
-          className="absolute inset-y-0 left-0 w-4/5 rounded-r-[4rem] bg-primary"
-          style={{
-            backgroundImage: backgroundImage
-              ? `linear-gradient(0deg, rgba(115,27,27,0.9), rgba(115,27,27,0.9)), url(${backgroundImage})`
-              : undefined,
-            backgroundSize: backgroundImage ? 'cover' : undefined,
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute bottom-12 left-12 h-32 w-32 rounded-full border border-accent/40 bg-accent/20 blur-3xl" />
-      </div>
-
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-16 sm:px-6 lg:flex-row lg:items-center lg:gap-16 lg:py-24 lg:px-8">
-        <div className="relative isolate w-full max-w-2xl overflow-hidden rounded-[3rem] border border-accent/40 bg-primary px-6 py-10 text-siteWhite shadow-soft-card sm:px-12 lg:px-16 animate-fadeIn">
+    <section className="relative w-full flex items-center justify-center bg-[#fff9f5] min-h-[90vh] py-12 md:py-16 overflow-hidden">
+      <div className="grid w-full max-w-7xl grid-cols-1 gap-10 items-center px-6 md:grid-cols-2 md:gap-12 md:px-12 lg:px-20">
+        <div className="relative isolate flex h-full flex-col justify-center rounded-3xl border border-[#dcb87c]/30 bg-gradient-to-br from-[#6b0f1a] via-[#7f3124] to-[#c9a24b] p-8 text-siteWhite shadow-[0_8px_30px_rgba(107,15,26,0.15)] md:p-10 lg:p-12 animate-fadeIn">
           <span className="inline-flex items-center rounded-full border border-accent/60 bg-accent/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-accent">
             {lang === 'en' ? 'Holistic Vastu Guidance' : 'समग्र वास्तु मार्गदर्शन'}
           </span>
           <div className="gold-divider" />
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">{heading}</h1>
+          <h1 className="text-4xl font-semibold tracking-wide sm:text-5xl lg:text-6xl">{heading}</h1>
           <p className="mt-6 text-lg text-siteWhite/90">{subheading}</p>
           <p className="mt-4 text-base text-siteWhite/80">{description}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link to={ctaLink} className="btn-primary border-accent/60 bg-siteWhite text-primary hover:bg-siteWhite/90">
+          <div className="mt-6 flex flex-wrap items-center gap-4 md:mt-8">
+            <Link
+              to={ctaLink}
+              className="px-6 py-3 font-semibold text-white transition-all duration-300 rounded-full bg-gradient-to-r from-[#6b0f1a] to-[#c9a24b] hover:opacity-90"
+            >
               {dict.cta.book}
             </Link>
-            <Link to="/services" className="btn-secondary border-siteWhite/60 text-siteWhite hover:bg-siteWhite/10">
+            <Link
+              to="/services"
+              className="px-6 py-3 font-semibold transition-all duration-300 rounded-full border border-[#c9a24b] text-[#6b0f1a] bg-transparent hover:bg-gradient-to-r hover:from-[#6b0f1a] hover:to-[#c9a24b] hover:text-white"
+            >
               {lang === 'en' ? 'View Services' : 'सेवा पहा'}
             </Link>
           </div>
-          <div className="pointer-events-none absolute -left-24 top-1/2 hidden h-48 w-48 -translate-y-1/2 rounded-full border border-accent/40 bg-accent/10 blur-3xl lg:block" />
         </div>
 
-        <div className="relative w-full rounded-[2.5rem] border border-accent/40 bg-siteWhite p-6 shadow-soft-card md:p-10 animate-fadeIn">
-          <div className="grid grid-cols-2 gap-3">
+        <div className="h-full rounded-3xl bg-white p-6 shadow-[0_8px_30px_rgba(107,15,26,0.12)] md:p-8 lg:p-10">
+          <div className="grid h-full grid-cols-2 gap-5 md:gap-6 lg:gap-8">
             {collageImages.map(item => (
               <img
                 key={item.id}
-                src={`${item.image}&auto=compress&cs=tinysrgb&w=500&fit=crop`}
+                src={withImageParams(`${item.image}?auto=compress&cs=tinysrgb&w=500&fit=crop`)}
                 alt={lang === 'en' ? item.title_en : item.title_mr}
-                className="aspect-square rounded-3xl object-cover transition duration-500 hover:scale-105"
+                className="w-full rounded-2xl object-cover transition duration-500 hover:scale-105"
                 loading="lazy"
+                width={250}
+                height={250}
               />
             ))}
             {Array.from({ length: placeholderCount }).map((_, idx) => (
-              <div key={`placeholder-${idx}`} className="aspect-square animate-pulse rounded-3xl bg-gray-200/60" />
+              <div key={`placeholder-${idx}`} className="w-full rounded-2xl bg-gray-200/60" />
             ))}
           </div>
-          <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] border border-primary/5" />
         </div>
       </div>
     </section>

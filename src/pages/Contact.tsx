@@ -1,17 +1,45 @@
-import ContactForm from '../components/ContactForm'
+import { Helmet } from 'react-helmet-async'
+import { useLocaleContext } from '../context/LocaleContext'
+import useFirestoreDoc from '../hooks/useFirestoreDoc'
+import type { CompanyInfo } from '../types/company'
+import ReachVastuAntaraForm from '../components/ReachVastuAntaraForm'
 
 export default function Contact() {
+  const { dict } = useLocaleContext()
+  const { data: companyInfo } = useFirestoreDoc<CompanyInfo>('companyInfo', 'default')
+  const whatsappLink = companyInfo?.social?.whatsapp ?? 'https://wa.me/919876543210'
+  const pageTitle = `${dict.meta.siteName} | ${dict.meta.contactTitle}`
+  const pageDescription = dict.meta.contactDescription
+
   return (
-    <section className="section-wrapper bg-bgSoft">
+    <section className="section-wrapper bg-gradient-to-br from-primary/5 via-bgSoft to-accent/10">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={dict.meta.defaultImage} />
+      </Helmet>
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10">
-          <h1 className="section-heading">Contact VastuAntara</h1>
+          <h1 className="section-heading">{dict.contactPage.title}</h1>
           <div className="gold-divider" />
-          <p className="text-primary/70">
-            Share your enquiry and we will respond with a personalised Vastu consultation plan within 24 hours.
-          </p>
+          <p className="text-primary/70">{dict.contactPage.description}</p>
         </header>
-        <ContactForm />
+        <ReachVastuAntaraForm />
+        <div className="mx-auto mt-6 flex max-w-xl flex-col items-center gap-3 text-center text-sm text-primary/60">
+          <p>
+            Prefer to message us directly?{' '}
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noreferrer"
+              className="text-accent underline-offset-4 hover:underline"
+            >
+              Start WhatsApp chat
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   )

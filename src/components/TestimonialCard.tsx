@@ -1,3 +1,5 @@
+import { withImageParams } from '../lib/helpers'
+
 interface TestimonialCardProps {
   name: string
   message: string
@@ -11,7 +13,14 @@ export default function TestimonialCard({ name, message, image, rating = 5 }: Te
       <div className="flex items-center gap-4">
         <div className="h-14 w-14 overflow-hidden rounded-full border border-accent/40 bg-accent/10">
           {image ? (
-            <img src={image} alt={name} className="h-full w-full object-cover" loading="lazy" />
+            <img
+              src={withImageParams(image)}
+              alt={name}
+              className="h-full w-full object-cover"
+              loading="lazy"
+              width={56}
+              height={56}
+            />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-primary/40">{name[0]}</div>
           )}

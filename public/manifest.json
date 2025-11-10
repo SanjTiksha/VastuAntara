@@ -1,0 +1,28 @@
+{
+  "name": "VastuAntara",
+  "short_name": "VastuAntara",
+  "description": "Holistic Vastu guidance blending tradition and modern design for harmonious spaces.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F7",
+  "theme_color": "#731B1B",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/social-preview.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/social-preview.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react'
-import Modal from 'react-modal'
-import useLocalCollection from '../hooks/useLocalCollection'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import Modal, { type Styles } from 'react-modal'
+import useFirestoreCollection from '../hooks/useFirestoreCollection'
 import { useLocaleContext } from '../context/LocaleContext'
+import { withImageParams } from '../lib/helpers'
 
 type GalleryEntry = {
   id: string
@@ -16,11 +17,31 @@ interface GalleryGridProps {
   limit?: number
 }
 
+const modalStyles: Styles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '1rem',
+    zIndex: 60,
+  },
+  content: {
+    position: 'relative',
+    inset: 'auto',
+    border: 'none',
+    background: 'transparent',
+    padding: 0,
+    overflow: 'visible',
+  },
+}
+
 export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
   const { lang, dict } = useLocaleContext()
-  const { data, loading } = useLocalCollection<GalleryEntry>('gallery')
+  const galleryLabels = dict.gallery
+  const { data, loading } = useFirestoreCollection<GalleryEntry>('gallery', { orderField: null })
   const [activeCategory, setActiveCategory] = useState<string>('all')
-  const [selected, setSelected] = useState<GalleryEntry | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   const derivedCategories = useMemo(() => {
     if (categories && categories.length > 0) return categories
@@ -39,30 +60,104 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
     return limit ? filteredItems.slice(0, limit) : filteredItems
   }, [activeCategory, data, limit])
 
+  const selectedItem = selectedIndex !== null ? filtered[selectedIndex] : null
+
+  useEffect(() => {
+    setSelectedIndex(null)
+  }, [activeCategory])
+
+  useEffect(() => {
+    if (selectedIndex !== null && selectedIndex >= filtered.length) {
+      setSelectedIndex(filtered.length > 0 ? 0 : null)
+    }
+  }, [filtered, selectedIndex])
+
+  const handleOpen = useCallback(
+    (index: number) => {
+      setSelectedIndex(index)
+    },
+    [setSelectedIndex],
+  )
+
+  const handleNavigate = useCallback(
+    (direction: 'prev' | 'next') => {
+      setSelectedIndex(prev => {
+        if (prev === null || filtered.length === 0) return prev
+        const delta = direction === 'next' ? 1 : -1
+        const nextIndex = (prev + delta + filtered.length) % filtered.length
+        return nextIndex
+      })
+    },
+    [filtered.length],
+  )
+
+  useEffect(() => {
+    if (selectedIndex === null) return
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        handleNavigate('next')
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        handleNavigate('prev')
+      }
+      if (event.key === 'Escape') {
+        setSelectedIndex(null)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [handleNavigate, selectedIndex])
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap gap-3 animate-fadeIn">
         <button
           type="button"
           onClick={() => setActiveCategory('all')}
-          className={`btn-secondary text-sm ${activeCategory === 'all' ? 'bg-accent/10' : ''}`}
+          aria-pressed={activeCategory === 'all'}
+          className={`relative overflow-hidden rounded-full border border-accent px-5 py-2 text-sm font-semibold text-primary transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
+            activeCategory === 'all'
+              ? 'bg-gradient-to-r from-accent/20 via-accent/10 to-accent/20 text-primary shadow-soft-card'
+              : 'hover:-translate-y-1 hover:bg-accent/5'
+          }`}
         >
+          <span
+            className={`absolute inset-0 -z-10 scale-0 rounded-full bg-gradient-to-r from-accent/40 via-accent/20 to-accent/40 transition-transform duration-300 ${
+              activeCategory === 'all' ? 'scale-100' : 'scale-0'
+            }`}
+          />
+          <span className="relative z-10">
           {lang === 'en' ? 'All' : 'सर्व'}
+          </span>
         </button>
         {derivedCategories.map(category => (
           <button
             key={category}
             type="button"
             onClick={() => setActiveCategory(category)}
-            className={`btn-secondary text-sm capitalize ${activeCategory === category ? 'bg-accent/10' : ''}`}
+            aria-pressed={activeCategory === category}
+            className={`relative overflow-hidden rounded-full border border-accent px-5 py-2 text-sm font-semibold capitalize text-primary transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
+              activeCategory === category
+                ? 'bg-gradient-to-r from-accent/20 via-accent/10 to-accent/20 text-primary shadow-soft-card'
+                : 'hover:-translate-y-1 hover:bg-accent/5'
+            }`}
           >
+            <span
+              className={`absolute inset-0 -z-10 scale-0 rounded-full bg-gradient-to-r from-accent/40 via-accent/20 to-accent/40 transition-transform duration-300 ${
+                activeCategory === category ? 'scale-100' : 'scale-0'
+              }`}
+            />
+            <span className="relative z-10">
             {category}
+            </span>
           </button>
         ))}
       </div>
 
       {loading ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: limit ?? 6 }).map((_, index) => (
             <div key={`gallery-skeleton-${index}`} className="card-surface animate-fadeIn p-6">
               <div className="h-56 w-full animate-pulse rounded-3xl bg-gray-200/70" />
@@ -70,8 +165,8 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
           ))}
         </div>
       ) : filtered.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map(item => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((item, index) => (
             <figure
               key={item.id}
               className="card-surface overflow-hidden transition hover:-translate-y-1 hover:shadow-xl"
@@ -79,14 +174,16 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
               <button
                 type="button"
                 className="group block w-full"
-                onClick={() => setSelected(item)}
+                onClick={() => handleOpen(index)}
                 aria-label={lang === 'en' ? item.title_en : item.title_mr}
               >
                 <img
-                  src={`${item.image}&auto=format&fit=crop&w=800`}
+                  src={withImageParams(`${item.image}?fit=crop&w=900`)}
                   alt={lang === 'en' ? item.title_en : item.title_mr}
                   loading="lazy"
-                  className="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
+                  className="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-110"
+                  width={900}
+                  height={400}
                 />
               </button>
               <figcaption className="p-6">
@@ -104,25 +201,57 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
         <div className="card-surface p-6 text-primary/60">{dict.sections.galleryEmpty}</div>
       )}
 
-      <Modal
-        isOpen={!!selected}
-        onRequestClose={() => setSelected(null)}
-        className="max-w-4xl mx-4 md:mx-auto bg-white p-4 sm:p-6 rounded-2xl shadow-xl outline-none border-2 border-accent/40"
-        overlayClassName="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4"
-      >
-        {selected && (
-          <div className="space-y-4">
-            <img
-              src={`${selected.image}&auto=format&fit=crop&w=1200`}
-              alt={lang === 'en' ? selected.title_en : selected.title_mr}
-              className="w-full rounded-2xl"
-            />
-            <p className="text-center text-lg font-semibold text-primary">
-              {lang === 'en' ? selected.title_en : selected.title_mr}
-            </p>
+      {selectedItem && (
+        <Modal
+          isOpen={selectedIndex !== null}
+          onRequestClose={() => setSelectedIndex(null)}
+          shouldCloseOnOverlayClick
+          style={modalStyles}
+          contentLabel={lang === 'en' ? selectedItem.title_en : selectedItem.title_mr}
+        >
+          <div className="w-[min(92vw,960px)] max-w-4xl rounded-3xl border border-accent/30 bg-siteWhite/95 p-4 shadow-soft-card sm:p-6">
+            <div className="relative overflow-hidden rounded-2xl bg-black">
+              <img
+                src={withImageParams(`${selectedItem.image}?fit=crop&w=1600`)}
+                alt={lang === 'en' ? selectedItem.title_en : selectedItem.title_mr}
+                className="max-h-[70vh] w-full object-contain"
+                loading="lazy"
+                width={1600}
+                height={900}
+              />
+              {filtered.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-accent/40 bg-siteWhite/80 p-3 text-primary shadow-lg transition hover:-translate-y-1 hover:bg-siteWhite"
+                    onClick={() => handleNavigate('prev')}
+                    aria-label={galleryLabels.prev}
+                  >
+                    &lt;
+                  </button>
+                  <button
+                    type="button"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-accent/40 bg-siteWhite/80 p-3 text-primary shadow-lg transition hover:-translate-y-1 hover:bg-siteWhite"
+                    onClick={() => handleNavigate('next')}
+                    aria-label={galleryLabels.next}
+                  >
+                    &gt;
+                  </button>
+                </>
+              )}
+            </div>
+            <div className="space-y-2 text-center">
+              <p className="text-lg font-semibold text-primary">
+                {lang === 'en' ? selectedItem.title_en : selectedItem.title_mr}
+              </p>
+              {selectedItem.category && (
+                <p className="text-xs uppercase tracking-[0.3em] text-primary/50">{selectedItem.category}</p>
+              )}
+              {filtered.length > 1 && <p className="text-xs text-primary/50">{galleryLabels.navigationHint}</p>}
+            </div>
           </div>
-        )}
-      </Modal>
+        </Modal>
+      )}
     </div>
   )
 }

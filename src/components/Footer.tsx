@@ -1,19 +1,43 @@
 import { Link } from 'react-router-dom'
-import logoEn from '../assets/logo-en.png'
-import companyInfo from '../data/companyInfo.json'
 import { useLocaleContext } from '../context/LocaleContext'
+import { hasFirebaseConfig } from '../lib/firebase'
+import useFirestoreDoc from '../hooks/useFirestoreDoc'
+import type { CompanyInfo } from '../types/company'
 
 export default function Footer() {
   const { dict, lang } = useLocaleContext()
-  const { phone, email, address, social } = companyInfo
+  const { data: companyInfo } = useFirestoreDoc<CompanyInfo>('companyInfo', 'default')
+  const phone = companyInfo?.phone ?? '+91-0000000000'
+  const email = companyInfo?.email ?? 'info@example.com'
+  const address = companyInfo?.address ?? 'Pune, Maharashtra, India'
+  const social = companyInfo?.social ?? {}
+
+  const name = lang === 'mr' ? companyInfo?.name_mr ?? 'वास्तुअंतरा' : companyInfo?.name_en ?? 'VastuAntara'
+  const tagline =
+    lang === 'mr'
+      ? companyInfo?.tagline_mr ?? 'स्वास्थ्य | संप्रदा | संबंध'
+      : companyInfo?.tagline_en ?? 'Swasthya | Sampradaa | Sambandha'
 
   return (
-    <footer className="bg-primary text-siteWhite">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="bg-gradient-to-br from-primary via-primary/95 to-accent/80 text-siteWhite">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
-            <div className="logo-frame border-white/50 bg-white/10">
-              <img src={logoEn} alt="VastuAntara Footer Logo" className="h-12 w-auto rounded-xl object-contain" />
+            <div className="inline-flex items-center gap-3 rounded-2xl border border-[#A67C00] bg-white px-4 py-3 shadow-sm">
+              <img
+                src="/images/Swastik.png"
+                alt="VastuAntara Logo"
+                className="h-10 w-10 object-contain md:h-12 md:w-12"
+                loading="lazy"
+              />
+              <div className="leading-tight">
+                <span className="block text-[20px] font-semibold text-[#7C0000] md:text-[22px]">
+                  {name}
+                </span>
+                <span className="block text-sm uppercase tracking-[0.3em] text-[#A67C00]">
+                  {tagline}
+                </span>
+              </div>
             </div>
             <p className="mt-4 text-sm text-white/80">
               {lang === 'en'
@@ -53,20 +77,49 @@ export default function Footer() {
               {lang === 'en' ? 'Connect' : 'कनेक्ट'}
             </h3>
             <div className="mt-4 flex flex-wrap gap-3 text-white/75">
-              <a href={social.facebook} target="_blank" rel="noreferrer" className="hover:text-accent">
+              <a
+                href={social.facebook}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-accent"
+                aria-label="Facebook"
+              >
                 Facebook
               </a>
-              <a href={social.youtube} target="_blank" rel="noreferrer" className="hover:text-accent">
+              <a
+                href={social.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-accent"
+                aria-label="YouTube"
+              >
                 YouTube
               </a>
-              <a href={social.whatsapp} target="_blank" rel="noreferrer" className="hover:text-accent">
+              <a
+                href={social.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-accent"
+                aria-label="WhatsApp"
+              >
                 WhatsApp
               </a>
+              {hasFirebaseConfig && (
+                <Link to="/login" className="hover:text-accent" aria-label="Admin Login">
+                  Admin Login
+                </Link>
+              )}
             </div>
           </div>
         </div>
-        <div className="mt-12 border-t border-white/20 pt-6 text-xs uppercase tracking-[0.3em] text-white/60">
-          {dict.footer.rights}
+        <div className="mt-12 border-t border-white/20 pt-6 text-white/70">
+          <div className="flex flex-col items-center gap-3 text-center text-xs uppercase tracking-[0.3em] sm:flex-row sm:justify-between">
+            <span>{dict.footer.rights}</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+              <span className="text-white/70">Powered by</span>
+              <span className="tracking-normal text-siteWhite">SanjTiksha Roots And Wings</span>
+            </span>
+          </div>
         </div>
       </div>
     </footer>

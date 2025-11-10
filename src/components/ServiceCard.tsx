@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { cloudinaryTransform } from '../lib/cloudinary'
+import { withImageParams } from '../lib/helpers'
 
 export interface ServiceCardProps {
   slug: string
@@ -12,13 +13,15 @@ export interface ServiceCardProps {
 export default function ServiceCard({ slug, title, description, image, accent }: ServiceCardProps) {
   return (
     <article className="card-surface flex h-full flex-col overflow-hidden">
-      <div className="relative aspect-[4/3] overflow-hidden bg-primary/5">
+      <div className="relative w-full overflow-hidden bg-primary/5 aspect-[16/11] md:aspect-[4/3]">
         {image ? (
           <img
-            src={cloudinaryTransform(image, 'c_fill,w_600,h_420,f_auto,q_auto')}
+            src={withImageParams(cloudinaryTransform(image, 'c_fill,w_600,h_420,f_auto,q_auto'))}
             alt={title}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+            width={600}
+            height={420}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-primary/40">Image coming soon</div>

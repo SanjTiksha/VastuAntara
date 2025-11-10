@@ -7,6 +7,14 @@ export default function useLocalCollection<T>(fileName: string) {
   useEffect(() => {
     let isMounted = true
 
+    if (!fileName) {
+      setData([])
+      setLoading(false)
+      return () => {
+        isMounted = false
+      }
+    }
+
     import(`../data/${fileName}.json`)
       .then(module => {
         if (!isMounted) return

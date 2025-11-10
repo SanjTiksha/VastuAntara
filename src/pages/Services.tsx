@@ -1,6 +1,7 @@
+import { Helmet } from 'react-helmet-async'
 import ServiceCard from '../components/ServiceCard'
 import { useLocaleContext } from '../context/LocaleContext'
-import useLocalCollection from '../hooks/useLocalCollection'
+import useFirestoreCollection from '../hooks/useFirestoreCollection'
 
 type ServiceEntry = {
   id: string
@@ -16,17 +17,26 @@ const skeletonItems = Array.from({ length: 4 })
 
 export default function Services() {
   const { lang, dict } = useLocaleContext()
-  const { data: services, loading } = useLocalCollection<ServiceEntry>('services')
+  const { data: services, loading } = useFirestoreCollection<ServiceEntry>('services', { orderField: 'order' })
+  const pageTitle = `${dict.meta.siteName} | ${dict.meta.servicesTitle}`
+  const pageDescription = dict.meta.servicesDescription
 
   return (
     <section className="section-wrapper">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={dict.meta.defaultImage} />
+      </Helmet>
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 animate-fadeIn">
-          <h1 className="section-heading">{dict.nav.services}</h1>
+          <h1 className="section-heading">{dict.meta.servicesTitle}</h1>
           <div className="gold-divider" />
           <p className="text-primary/70">{dict.sections.servicesDescription}</p>
         </header>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {loading
             ? skeletonItems.map((_, index) => (
                 <div key={`services-skeleton-${index}`} className="card-surface animate-pulse p-6">

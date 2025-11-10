@@ -22,6 +22,21 @@ export function formatPhoneNumber(phone: string) {
   return phone.replace(/(\d{5})(\d{5})/, '+91 $1 $2')
 }
 
+export function withImageParams(url: string, params = 'auto=format&q=auto&f=auto') {
+  if (!url) return url
+  try {
+    const hostname = new URL(url).hostname
+    if (hostname.includes('ytimg.com') || hostname.includes('youtube.com')) {
+      return url
+    }
+  } catch (error) {
+    console.warn('withImageParams: invalid URL, returning as-is', error)
+    return url
+  }
+  const separator = url.includes('?') ? '&' : '?'
+  return `${url}${separator}${params}`
+}
+
 export function getYouTubeId(link: string) {
   try {
     const url = new URL(link)

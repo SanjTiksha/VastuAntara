@@ -14,7 +14,7 @@ export default function useFirestoreDoc<T = Record<string, unknown>>(collectionN
       return
     }
 
-    if (!firestore) {
+    if (!firestore || !collectionName) {
       setLoading(false)
       return
     }

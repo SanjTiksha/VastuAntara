@@ -11,12 +11,18 @@ export default function useFirestoreCollection<T = Record<string, unknown>>(
   collectionName: string,
   options: FirestoreCollectionOptions = {},
 ) {
-  const { orderField = 'order', constraints = [] } = options
+  const { orderField = null, constraints = [] } = options
   const [data, setData] = useState<T[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
+    if (!collectionName) {
+      setData([])
+      setLoading(false)
+      return
+    }
+
     if (!firestore) {
       setLoading(false)
       return

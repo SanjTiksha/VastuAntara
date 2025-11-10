@@ -1,10 +1,11 @@
-import ContactForm from '../components/ContactForm'
+import { Helmet } from 'react-helmet-async'
 import GalleryGrid from '../components/GalleryGrid'
 import HeroBanner from '../components/HeroBanner'
 import ServiceCard from '../components/ServiceCard'
 import TestimonialCard from '../components/TestimonialCard'
 import { useLocaleContext } from '../context/LocaleContext'
-import useLocalCollection from '../hooks/useLocalCollection'
+import useFirestoreCollection from '../hooks/useFirestoreCollection'
+import ReachVastuAntaraForm from '../components/ReachVastuAntaraForm'
 
 type ServiceEntry = {
   id: string
@@ -29,12 +30,26 @@ const skeletonItems = Array.from({ length: 3 })
 
 export default function Home() {
   const { lang, dict } = useLocaleContext()
-  const { data: services, loading: servicesLoading } = useLocalCollection<ServiceEntry>('services')
-  const { data: testimonials, loading: testimonialsLoading } =
-    useLocalCollection<TestimonialEntry>('testimonials')
+  const { data: services, loading: servicesLoading } = useFirestoreCollection<ServiceEntry>('services', {
+    orderField: 'order',
+  })
+  const { data: testimonials, loading: testimonialsLoading } = useFirestoreCollection<TestimonialEntry>(
+    'testimonials',
+    { orderField: null },
+  )
+
+  const pageTitle = `${dict.meta.siteName} | ${dict.meta.homeTitle}`
+  const pageDescription = dict.meta.homeDescription
 
   return (
-    <main>
+    <div>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={dict.meta.defaultImage} />
+      </Helmet>
       <HeroBanner />
 
       <section className="section-wrapper bg-bgSoft">
@@ -44,7 +59,7 @@ export default function Home() {
             <div className="gold-divider" />
             <p className="text-primary/70">{dict.sections.servicesDescription}</p>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {servicesLoading
               ? skeletonItems.map((_, index) => (
                   <div key={`service-skeleton-${index}`} className="card-surface h-full animate-pulse p-6">
@@ -85,7 +100,7 @@ export default function Home() {
             <div className="gold-divider" />
             <p className="text-primary/70">{dict.sections.testimonialsDescription}</p>
           </div>
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {testimonialsLoading ? (
               skeletonItems.slice(0, 2).map((_, index) => (
                 <div key={`testimonial-skeleton-${index}`} className="card-surface animate-pulse p-6">
@@ -113,15 +128,15 @@ export default function Home() {
 
       <section className="section-wrapper">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 animate-fadeIn">
+          <div className="mb-10 animate-fadeIn text-center">
             <h2 className="section-heading">{dict.sections.contactTitle}</h2>
-            <div className="gold-divider" />
+            <div className="gold-divider mx-auto" />
             <p className="text-primary/70">{dict.sections.contactDescription}</p>
           </div>
-          <ContactForm />
+          <ReachVastuAntaraForm />
         </div>
       </section>
-    </main>
+    </div>
   )
 }
 

@@ -1,15 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600&family=Hind:wght@400;500;600&family=Nunito:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600&family=Hind:wght@400;500;600&family=Nunito+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid #C9A138;
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  p,
+  li,
+  input,
+  textarea,
+  button {
+    font-size: 0.95rem;
+  }
+}
+
+::root {
   color-scheme: light;
   --color-primary: #731B1B;
   --color-accent: #C9A138;
   --color-white: #FFFFFF;
   --color-bg: #FAF9F7;
+}
+
+.skip-nav {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #731B1B;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(115, 27, 27, 0.15);
+  transition: top 0.2s ease, opacity 0.2s ease;
+  opacity: 0;
+}
+
+.skip-nav:focus {
+  top: 1rem;
+  opacity: 1;
 }
 
 body {
@@ -55,22 +106,22 @@ body {
 }
 
 .card-surface {
-  @apply bg-white rounded-3xl shadow-soft-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  @apply rounded-3xl bg-white shadow-soft-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-siteWhite font-semibold transition-all duration-200 border border-transparent hover:border-accent hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
+  @apply inline-flex items-center justify-center rounded-full border border-transparent bg-gradient-to-r from-primary via-primary to-accent px-6 py-3 font-semibold text-siteWhite shadow-soft-card transition-all duration-300 hover:from-primary/90 hover:via-primary/90 hover:to-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center rounded-full border border-accent px-6 py-3 text-primary font-semibold transition-all duration-200 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
+  @apply inline-flex items-center justify-center rounded-full border border-accent px-6 py-3 font-semibold text-primary transition-all duration-300 hover:bg-accent/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
 }
 
 .section-wrapper {
-  @apply py-16 sm:py-20 lg:py-24 bg-white;
+  @apply bg-white py-20 sm:py-24 lg:py-28;
 }
 
 .section-heading {
-  @apply text-3xl md:text-4xl lg:text-5xl font-semibold text-primary tracking-tight;
+  @apply text-3xl md:text-4xl lg:text-5xl font-semibold text-primary tracking-wide;
 }
 
