@@ -44,20 +44,20 @@ export default function Header() {
     <header className={headerClassName}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="logo-frame" aria-label="VastuAntara Home">
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-2 text-center sm:flex-nowrap sm:gap-4">
             <div className="flex items-center justify-center rounded-xl border-2 border-[#A67C00] bg-white p-[6px] sm:p-[8px]">
               <img
                 src="/images/Swastik.png"
                 alt="VastuAntara Logo"
-                className="h-10 w-10 object-contain sm:h-12 sm:w-12"
+                className="h-10 w-10 flex-shrink-0 object-contain sm:h-12 sm:w-12"
                 loading="eager"
               />
             </div>
-            <div className="hidden leading-tight text-primary sm:flex sm:flex-col">
-              <span className="text-lg font-semibold tracking-wide">
+            <div className="flex flex-col items-center leading-tight text-primary sm:items-start">
+              <span className="text-lg font-semibold sm:text-xl">
                 {lang === 'mr' ? 'वास्तुअंतरा' : 'VastuAntara'}
               </span>
-              <span className="text-xs uppercase tracking-[0.3em] text-accent">
+              <span className="text-xs uppercase tracking-[0.25em] text-accent whitespace-nowrap sm:text-[0.7rem]">
                 {lang === 'mr' ? 'स्वास्थ्य • संप्रदा • संबंध' : 'Swasthya • Sampradaa • Sambandha'}
               </span>
             </div>
