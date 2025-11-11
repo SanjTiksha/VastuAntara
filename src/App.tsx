@@ -7,7 +7,7 @@ import Footer from './components/Footer'
 import Spinner from './components/Spinner'
 
 const Home = lazy(() => import('./pages/Home'))
-const About = lazy(() => import('./pages/About'))
+const AboutUs = lazy(() => import('./pages/AboutUs'))
 const Services = lazy(() => import('./pages/Services'))
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'))
 const Gallery = lazy(() => import('./pages/Gallery'))
@@ -17,9 +17,7 @@ const BlogDetail = lazy(() => import('./pages/BlogDetail'))
 const Testimonials = lazy(() => import('./pages/Testimonials'))
 const Contact = lazy(() => import('./pages/Contact'))
 const AdminLogin = lazy(() => import('./pages/AdminLogin'))
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
-const AdminContentEditor = lazy(() => import('./pages/AdminContentEditor'))
-const AboutUsAdmin = lazy(() => import('./pages/admin/AboutUsAdmin'))
+const AdminRoutes = lazy(() => import('./pages/admin/AdminRoutes'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function App() {
@@ -34,7 +32,7 @@ function App() {
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/about" element={<AboutUs />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:slug" element={<ServiceDetail />} />
               <Route path="/gallery" element={<Gallery />} />
@@ -45,9 +43,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<AdminLogin />} />
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/about-us" element={<AboutUsAdmin />} />
-              <Route path="/admin/content/:section" element={<AdminContentEditor />} />
+              <Route path="/admin/*" element={<AdminRoutes />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
