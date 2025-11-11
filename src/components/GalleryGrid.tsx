@@ -39,7 +39,7 @@ const modalStyles: Styles = {
 export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
   const { lang, dict } = useLocaleContext()
   const galleryLabels = dict.gallery
-  const { data, loading } = useFirestoreCollection<GalleryEntry>('gallery', { orderField: null })
+  const { data, loading } = useFirestoreCollection<GalleryEntry>('gallery')
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
@@ -129,7 +129,7 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
             }`}
           />
           <span className="relative z-10">
-          {lang === 'en' ? 'All' : 'सर्व'}
+            {lang === 'en' ? 'All' : 'सर्व'}
           </span>
         </button>
         {derivedCategories.map(category => (
@@ -150,7 +150,7 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
               }`}
             />
             <span className="relative z-10">
-            {category}
+              {category}
             </span>
           </button>
         ))}
@@ -178,9 +178,10 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
                 aria-label={lang === 'en' ? item.title_en : item.title_mr}
               >
                 <img
-                  src={withImageParams(`${item.image}?fit=crop&w=900`)}
+                  src={withImageParams(item.image, 'f_auto,q_auto,w=900,h=600,c_fill')}
                   alt={lang === 'en' ? item.title_en : item.title_mr}
                   loading="lazy"
+                  decoding="async"
                   className="h-56 w-full object-cover transition duration-700 ease-out group-hover:scale-110"
                   width={900}
                   height={400}
@@ -212,10 +213,11 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
           <div className="w-[min(92vw,960px)] max-w-4xl rounded-3xl border border-accent/30 bg-siteWhite/95 p-4 shadow-soft-card sm:p-6">
             <div className="relative overflow-hidden rounded-2xl bg-black">
               <img
-                src={withImageParams(`${selectedItem.image}?fit=crop&w=1600`)}
+                src={withImageParams(selectedItem.image, 'f_auto,q_auto,w=1600,h=900,c_fill')}
                 alt={lang === 'en' ? selectedItem.title_en : selectedItem.title_mr}
-                className="max-h-[70vh] w-full object-contain"
+                className="h-full w-full object-cover"
                 loading="lazy"
+                decoding="async"
                 width={1600}
                 height={900}
               />

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import Modal, { type Styles } from 'react-modal'
 import { useLocaleContext } from '../context/LocaleContext'
 import { getYouTubeId, withImageParams } from '../lib/helpers'
@@ -31,7 +31,7 @@ const modalStyles: Styles = {
   },
 }
 
-export default function VideoCard({
+function VideoCardComponent({
   title_en,
   title_mr,
   youtubeLink,
@@ -74,6 +74,7 @@ export default function VideoCard({
               src={thumbnailUrl}
               alt={translatedTitle}
               loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110"
               width={800}
               height={450}
@@ -128,4 +129,8 @@ export default function VideoCard({
     </>
   )
 }
+
+const VideoCard = memo(VideoCardComponent)
+
+export default VideoCard
 

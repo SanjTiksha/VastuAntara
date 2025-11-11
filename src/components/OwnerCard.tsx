@@ -21,6 +21,7 @@ export default function OwnerCard({ name, careerDetails, photoUrl, className }: 
             src={photoUrl}
             alt={name}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-contain"
             width={256}
             height={256}

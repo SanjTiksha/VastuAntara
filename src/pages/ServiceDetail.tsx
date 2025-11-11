@@ -17,11 +17,13 @@ type ServiceEntry = {
 export default function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>()
   const { lang, dict } = useLocaleContext()
-  const constraints = slug ? [where('slug', '==', slug)] : []
-  const { data: services } = useFirestoreCollection<ServiceEntry>('services', {
-    orderField: null,
-    constraints,
-  })
+  const serviceQueryOptions = useMemo(() => {
+    if (!slug) {
+      return { orderField: null, constraints: undefined }
+    }
+    return { orderField: null, constraints: [where('slug', '==', slug)] }
+  }, [slug])
+  const { data: services } = useFirestoreCollection<ServiceEntry>('services', serviceQueryOptions)
 
   const service = useMemo(() => services[0], [services])
 

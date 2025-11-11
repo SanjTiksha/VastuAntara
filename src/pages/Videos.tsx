@@ -17,7 +17,7 @@ const skeletonItems = Array.from({ length: 4 })
 
 export default function Videos() {
   const { dict } = useLocaleContext()
-  const { data: videos, loading } = useFirestoreCollection<VideoEntry>('videos', { orderField: null })
+  const { data: videos, loading } = useFirestoreCollection<VideoEntry>('videos')
   const pageTitle = `${dict.meta.siteName} | ${dict.meta.videosTitle}`
   const pageDescription = dict.meta.videosDescription
 

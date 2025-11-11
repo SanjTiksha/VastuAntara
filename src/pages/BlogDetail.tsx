@@ -23,8 +23,13 @@ function stripHtml(value: string) {
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>()
   const { lang, dict } = useLocaleContext()
-  const constraints = slug ? [where('slug', '==', slug)] : []
-  const { data: blogs } = useFirestoreCollection<BlogEntry>('blogs', { orderField: null, constraints })
+  const blogQueryOptions = useMemo(() => {
+    if (!slug) {
+      return { orderField: null, constraints: undefined }
+    }
+    return { orderField: null, constraints: [where('slug', '==', slug)] }
+  }, [slug])
+  const { data: blogs } = useFirestoreCollection<BlogEntry>('blogs', blogQueryOptions)
 
   const blog = useMemo(() => blogs[0], [blogs])
   const titleText = blog ? (lang === 'en' ? blog.title_en : blog.title_mr) : slug?.replace(/-/g, ' ')

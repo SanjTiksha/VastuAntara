@@ -20,9 +20,7 @@ const skeletonItems = Array.from({ length: 4 })
 
 export default function Testimonials() {
   const { lang, dict } = useLocaleContext()
-  const { data: testimonials, loading } = useFirestoreCollection<TestimonialEntry>('testimonials', {
-    orderField: null,
-  })
+  const { data: testimonials, loading } = useFirestoreCollection<TestimonialEntry>('testimonials')
   const pageTitle = `${dict.meta.siteName} | ${dict.meta.testimonialsTitle}`
   const pageDescription = dict.meta.testimonialsDescription
 

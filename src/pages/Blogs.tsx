@@ -24,7 +24,7 @@ function stripHtml(value: string) {
 
 export default function Blogs() {
   const { lang, dict } = useLocaleContext()
-  const { data: blogs, loading } = useFirestoreCollection<BlogEntry>('blogs', { orderField: null })
+  const { data: blogs, loading } = useFirestoreCollection<BlogEntry>('blogs')
 
   const processedBlogs = useMemo(() => {
     return blogs.map(blog => {

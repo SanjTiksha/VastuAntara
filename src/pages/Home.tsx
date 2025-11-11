@@ -33,10 +33,7 @@ export default function Home() {
   const { data: services, loading: servicesLoading } = useFirestoreCollection<ServiceEntry>('services', {
     orderField: 'order',
   })
-  const { data: testimonials, loading: testimonialsLoading } = useFirestoreCollection<TestimonialEntry>(
-    'testimonials',
-    { orderField: null },
-  )
+  const { data: testimonials, loading: testimonialsLoading } = useFirestoreCollection<TestimonialEntry>('testimonials')
 
   const pageTitle = `${dict.meta.siteName} | ${dict.meta.homeTitle}`
   const pageDescription = dict.meta.homeDescription

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { withImageParams } from '../lib/helpers'
 
 interface TestimonialCardProps {
@@ -7,7 +8,7 @@ interface TestimonialCardProps {
   rating?: number
 }
 
-export default function TestimonialCard({ name, message, image, rating = 5 }: TestimonialCardProps) {
+function TestimonialCardComponent({ name, message, image, rating = 5 }: TestimonialCardProps) {
   return (
     <article className="card-surface flex h-full flex-col gap-5 p-6">
       <div className="flex items-center gap-4">
@@ -18,6 +19,7 @@ export default function TestimonialCard({ name, message, image, rating = 5 }: Te
               alt={name}
               className="h-full w-full object-cover"
               loading="lazy"
+              decoding="async"
               width={56}
               height={56}
             />
@@ -38,4 +40,8 @@ export default function TestimonialCard({ name, message, image, rating = 5 }: Te
     </article>
   )
 }
+
+const TestimonialCard = memo(TestimonialCardComponent)
+
+export default TestimonialCard
 

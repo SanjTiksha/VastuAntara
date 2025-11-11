@@ -18,7 +18,7 @@ interface HeroBannerProps {
 
 export default function HeroBanner({ ctaLink = '/contact' }: HeroBannerProps) {
   const { lang, dict } = useLocaleContext()
-  const { data: galleryImages } = useFirestoreCollection<GalleryEntry>('gallery', { orderField: null })
+  const { data: galleryImages } = useFirestoreCollection<GalleryEntry>('gallery')
   const { data: companyInfo } = useFirestoreDoc<CompanyInfo>('companyInfo', 'default')
   const collageImages = galleryImages.slice(0, 4)
   const placeholderCount = Math.max(0, 4 - collageImages.length)
@@ -66,12 +66,13 @@ export default function HeroBanner({ ctaLink = '/contact' }: HeroBannerProps) {
             {collageImages.map(item => (
               <img
                 key={item.id}
-                src={withImageParams(`${item.image}?auto=compress&cs=tinysrgb&w=500&fit=crop`)}
+                src={withImageParams(item.image, 'f_auto,q_auto,w=500,h=500,c_fill')}
                 alt={lang === 'en' ? item.title_en : item.title_mr}
                 className="w-full rounded-2xl object-cover transition duration-500 hover:scale-105"
                 loading="lazy"
                 width={250}
                 height={250}
+                decoding="async"
               />
             ))}
             {Array.from({ length: placeholderCount }).map((_, idx) => (

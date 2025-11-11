@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { cloudinaryTransform } from '../lib/cloudinary'
 import { withImageParams } from '../lib/helpers'
@@ -12,7 +13,7 @@ export interface BlogCardProps {
   readTimeLabel?: string
 }
 
-export default function BlogCard({ slug, title, excerpt, image, publishDate, category, readTimeLabel }: BlogCardProps) {
+function BlogCardComponent({ slug, title, excerpt, image, publishDate, category, readTimeLabel }: BlogCardProps) {
   return (
     <article className="group relative overflow-hidden rounded-3xl bg-white shadow-soft-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="absolute inset-x-0 top-0 z-0 h-1 bg-gradient-to-r from-accent/50 via-accent/40 to-accent/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -22,6 +23,7 @@ export default function BlogCard({ slug, title, excerpt, image, publishDate, cat
             src={withImageParams(cloudinaryTransform(image, 'c_fill,w_640,h_360,q_auto,f_auto'))}
             alt={title}
             loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110"
             width={640}
             height={360}
@@ -54,4 +56,8 @@ export default function BlogCard({ slug, title, excerpt, image, publishDate, cat
     </article>
   )
 }
+
+const BlogCard = memo(BlogCardComponent)
+
+export default BlogCard
 

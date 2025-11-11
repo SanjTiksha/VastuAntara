@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { collection, onSnapshot, orderBy, query, type QueryConstraint } from 'firebase/firestore'
 import { firestore } from '../lib/firebase'
 
@@ -7,11 +7,14 @@ export interface FirestoreCollectionOptions {
   constraints?: QueryConstraint[]
 }
 
+const EMPTY_CONSTRAINTS: QueryConstraint[] = []
+
 export default function useFirestoreCollection<T = Record<string, unknown>>(
   collectionName: string,
   options: FirestoreCollectionOptions = {},
 ) {
-  const { orderField = null, constraints = [] } = options
+  const { orderField = null, constraints } = options
+  const constraintList = useMemo(() => constraints ?? EMPTY_CONSTRAINTS, [constraints])
   const [data, setData] = useState<T[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -31,8 +34,8 @@ export default function useFirestoreCollection<T = Record<string, unknown>>(
     const baseRef = collection(firestore, collectionName)
     const finalQuery =
       orderField && orderField.length > 0
-        ? query(baseRef, orderBy(orderField, 'asc'), ...constraints)
-        : query(baseRef, ...constraints)
+        ? query(baseRef, orderBy(orderField, 'asc'), ...constraintList)
+        : query(baseRef, ...constraintList)
 
     const unsubscribe = onSnapshot(
       finalQuery,
@@ -49,7 +52,7 @@ export default function useFirestoreCollection<T = Record<string, unknown>>(
     )
 
     return () => unsubscribe()
-  }, [collectionName, orderField, constraints])
+  }, [collectionName, orderField, constraintList])
 
   return { data, loading, error }
 }
