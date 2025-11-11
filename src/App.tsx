@@ -5,6 +5,7 @@ import ScrollToTop from 'react-scroll-to-top'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Spinner from './components/Spinner'
+import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange'
 
 const Home = lazy(() => import('./pages/Home'))
 const AboutUs = lazy(() => import('./pages/AboutUs'))
@@ -29,6 +30,7 @@ function App() {
       <div className="flex min-h-screen flex-col bg-bgSoft text-primary">
         <Header />
         <main id="main-content" className="flex-1">
+          <ScrollToTopOnRouteChange />
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Home />} />
