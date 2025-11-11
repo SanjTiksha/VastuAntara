@@ -20,9 +20,11 @@ const INITIAL_STATE: FormState = {
   message: '',
 }
 
-const WHATSAPP_NUMBER = '919876543210'
+interface ReachVastuAntaraFormProps {
+  whatsappNumber?: string
+}
 
-export default function ReachVastuAntaraForm() {
+export default function ReachVastuAntaraForm({ whatsappNumber }: ReachVastuAntaraFormProps) {
   const { dict } = useLocaleContext()
   const [form, setForm] = useState<FormState>(INITIAL_STATE)
 
@@ -57,6 +59,11 @@ export default function ReachVastuAntaraForm() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
+    if (!whatsappNumber) {
+      toast.error('WhatsApp number is currently unavailable. Please try again later.')
+      return
+    }
+
     const purposeLabel = formDict.purposeOptions[form.purpose]
 
     const lines = [
@@ -71,8 +78,8 @@ export default function ReachVastuAntaraForm() {
     const encodedText = encodeURIComponent(lines.join('\n'))
 
     const waUrl = isMobile
-      ? `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`
-      : `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`
+      ? `whatsapp://send?phone=${whatsappNumber}&text=${encodedText}`
+      : `https://wa.me/${whatsappNumber}?text=${encodedText}`
 
     window.open(waUrl, '_blank', 'noopener,noreferrer')
     toast.success(formDict.toast)
