@@ -17,9 +17,6 @@ export default function Contact() {
   const { dict } = useLocaleContext()
   const { data: companyInfo } = useFirestoreDoc<CompanyInfo>('companyInfo', 'default')
   const whatsappNumber = extractWhatsappNumber(companyInfo?.phone)
-  const whatsappLink = whatsappNumber
-    ? `https://wa.me/${whatsappNumber}`
-    : companyInfo?.social?.whatsapp
   const pageTitle = `${dict.meta.siteName} | ${dict.meta.contactTitle}`
   const pageDescription = dict.meta.contactDescription
 
@@ -33,21 +30,6 @@ export default function Contact() {
           <p className="text-primary/70">{dict.contactPage.description}</p>
         </header>
         <ReachVastuAntaraForm whatsappNumber={whatsappNumber} />
-        {whatsappLink && (
-          <div className="mx-auto mt-6 flex max-w-xl flex-col items-center gap-3 text-center text-sm text-primary/60">
-            <p>
-              Prefer to message us directly?{' '}
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noreferrer"
-                className="text-accent underline-offset-4 hover:underline"
-              >
-                Start WhatsApp chat
-              </a>
-            </p>
-          </div>
-        )}
       </div>
     </section>
   )

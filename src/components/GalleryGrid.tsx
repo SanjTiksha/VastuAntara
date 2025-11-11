@@ -39,9 +39,29 @@ const modalStyles: Styles = {
 export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
   const { lang, dict } = useLocaleContext()
   const galleryLabels = dict.gallery
+  const galleryCategories = dict.galleryCategories as Record<string, string> | undefined
   const { data, loading } = useFirestoreCollection<GalleryEntry>('gallery')
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+
+  const getCategoryLabel = useCallback(
+    (key: string) => {
+      const normalized = key.toLowerCase()
+      if (galleryCategories && galleryCategories[normalized]) {
+        return galleryCategories[normalized]
+      }
+      if (normalized === 'all') {
+        return lang === 'en' ? 'All' : 'सर्व'
+      }
+      if (lang === 'mr') {
+        if (normalized === 'home') return 'घर'
+        if (normalized === 'office') return 'ऑफिस'
+        if (normalized === 'wellness') return 'वेलनेस'
+      }
+      return normalized.charAt(0).toUpperCase() + normalized.slice(1)
+    },
+    [galleryCategories, lang],
+  )
 
   const derivedCategories = useMemo(() => {
     if (categories && categories.length > 0) return categories
@@ -128,9 +148,7 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
               activeCategory === 'all' ? 'scale-100' : 'scale-0'
             }`}
           />
-          <span className="relative z-10">
-            {lang === 'en' ? 'All' : 'सर्व'}
-          </span>
+          <span className="relative z-10">{getCategoryLabel('all')}</span>
         </button>
         {derivedCategories.map(category => (
           <button
@@ -149,9 +167,7 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
                 activeCategory === category ? 'scale-100' : 'scale-0'
               }`}
             />
-            <span className="relative z-10">
-              {category}
-            </span>
+            <span className="relative z-10">{getCategoryLabel(category)}</span>
           </button>
         ))}
       </div>
@@ -192,7 +208,7 @@ export default function GalleryGrid({ categories, limit }: GalleryGridProps) {
                   {lang === 'en' ? item.title_en : item.title_mr}
                 </p>
                 {item.category && (
-                  <p className="text-xs uppercase tracking-[0.2em] text-primary/50">{item.category}</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-primary/50">{getCategoryLabel(item.category)}</p>
                 )}
               </figcaption>
             </figure>

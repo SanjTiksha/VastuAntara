@@ -12,7 +12,13 @@
     "book": "सल्ला बुक करा"
   },
   "footer": {
-    "rights": "© 2025 वास्तुअंतरा. सर्व हक्क राखीव."
+    "rights": "© 2025 वास्तुअंतरा. सर्व हक्क राखीव.",
+    "social": {
+      "facebook": "फेसबुक",
+      "youtube": "यूट्यूब",
+      "whatsapp": "व्हॉट्सअॅप",
+      "adminLogin": "प्रशासक लॉगिन"
+    }
   },
   "meta": {
     "siteName": "वास्तुअंतरा",
@@ -45,6 +51,16 @@
     "navigationHint": "अधिक पाहण्यासाठी बाण की किंवा बटण वापरा.",
     "prev": "मागील प्रतिमा",
     "next": "पुढील प्रतिमा"
+  },
+  "galleryCategories": {
+    "all": "सर्व",
+    "home": "घर",
+    "office": "ऑफिस",
+    "wellness": "वेलनेस"
+  },
+  "actions": {
+    "exploreService": "सेवा पहा →",
+    "readArticle": "लेख वाचा →"
   },
   "blog": {
     "tagInsights": "आकलन",

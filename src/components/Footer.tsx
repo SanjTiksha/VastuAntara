@@ -11,6 +11,7 @@ export default function Footer() {
   const email = companyInfo?.email ?? 'info@example.com'
   const address = companyInfo?.address ?? 'Pune, Maharashtra, India'
   const social = companyInfo?.social ?? {}
+  const socialLabels = dict.footer?.social as Record<string, string> | undefined
 
   const name = lang === 'mr' ? companyInfo?.name_mr ?? 'वास्तुअंतरा' : companyInfo?.name_en ?? 'VastuAntara'
   const tagline =
@@ -82,31 +83,31 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-accent"
-                aria-label="Facebook"
+                aria-label={socialLabels?.facebook ?? 'Facebook'}
               >
-                Facebook
+                {socialLabels?.facebook ?? (lang === 'en' ? 'Facebook' : 'फेसबुक')}
               </a>
               <a
                 href={social.youtube}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-accent"
-                aria-label="YouTube"
+                aria-label={socialLabels?.youtube ?? 'YouTube'}
               >
-                YouTube
+                {socialLabels?.youtube ?? (lang === 'en' ? 'YouTube' : 'यूट्यूब')}
               </a>
               <a
                 href={social.whatsapp}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-accent"
-                aria-label="WhatsApp"
+                aria-label={socialLabels?.whatsapp ?? 'WhatsApp'}
               >
-                WhatsApp
+                {socialLabels?.whatsapp ?? (lang === 'en' ? 'WhatsApp' : 'व्हॉट्सअॅप')}
               </a>
               {hasFirebaseConfig && (
-                <Link to="/login" className="hover:text-accent" aria-label="Admin Login">
-                  Admin Login
+                <Link to="/login" className="hover:text-accent" aria-label={socialLabels?.adminLogin ?? 'Admin Login'}>
+                  {socialLabels?.adminLogin ?? (lang === 'en' ? 'Admin Login' : 'प्रशासक लॉगिन')}
                 </Link>
               )}
             </div>

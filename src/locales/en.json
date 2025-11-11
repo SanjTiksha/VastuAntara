@@ -12,7 +12,13 @@
     "book": "Book Consultation"
   },
   "footer": {
-    "rights": "© 2025 VastuAntara. All rights reserved."
+    "rights": "© 2025 VastuAntara. All rights reserved.",
+    "social": {
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "whatsapp": "WhatsApp",
+      "adminLogin": "Admin Login"
+    }
   },
   "meta": {
     "siteName": "VastuAntara",
@@ -45,6 +51,16 @@
     "navigationHint": "Use arrow keys or buttons to explore more imagery.",
     "prev": "Previous image",
     "next": "Next image"
+  },
+  "galleryCategories": {
+    "all": "All",
+    "home": "Home",
+    "office": "Office",
+    "wellness": "Wellness"
+  },
+  "actions": {
+    "exploreService": "Explore Service →",
+    "readArticle": "Read Article →"
   },
   "blog": {
     "tagInsights": "Insights",

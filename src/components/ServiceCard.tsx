@@ -2,6 +2,7 @@ import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { cloudinaryTransform } from '../lib/cloudinary'
 import { withImageParams } from '../lib/helpers'
+import { useLocaleContext } from '../context/LocaleContext'
 
 export interface ServiceCardProps {
   slug: string
@@ -12,6 +13,8 @@ export interface ServiceCardProps {
 }
 
 function ServiceCardComponent({ slug, title, description, image, accent }: ServiceCardProps) {
+  const { dict } = useLocaleContext()
+  const exploreLabel = dict.actions?.exploreService ?? 'Explore Service →'
   return (
     <article className="card-surface flex h-full flex-col overflow-hidden">
       <div className="relative w-full overflow-hidden bg-primary/5 aspect-[16/11] md:aspect-[4/3]">
@@ -39,7 +42,7 @@ function ServiceCardComponent({ slug, title, description, image, accent }: Servi
           to={`/services/${slug}`}
           className="mt-6 inline-flex items-center text-sm font-semibold text-accent hover:text-accent/80"
         >
-          Explore Service →
+          {exploreLabel}
         </Link>
       </div>
     </article>
