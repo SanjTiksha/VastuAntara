@@ -44,30 +44,20 @@ export default function Header() {
     <header className={headerClassName}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="logo-frame" aria-label="VastuAntara Home">
-          <div className="flex items-center justify-center rounded-2xl border border-[#D4AF37] bg-white px-4 py-2 text-white shadow-sm sm:px-3 sm:py-1">
+          <div className="flex items-center justify-center gap-3 rounded-2xl border border-[#D4AF37] bg-white px-4 py-2 shadow-sm sm:gap-2 sm:px-3 sm:py-1">
             <img
               src="/images/Swastik.png"
               alt="VastuAntara"
-              className="mr-3 h-12 w-12 flex-shrink-0 sm:mr-2 sm:h-10 sm:w-10"
+              className="h-12 w-12 flex-shrink-0 sm:h-10 sm:w-10"
               loading="eager"
             />
             <div className="flex flex-col justify-center text-left">
               <h1 className="text-2xl font-semibold leading-tight text-[#7A1B1B] sm:text-xl">
                 {lang === 'mr' ? 'वास्तुअंतरा' : 'VastuAntara'}
               </h1>
-              {lang === 'mr' ? (
-                <div className="mt-1 flex flex-col text-[11px] font-medium tracking-wide text-[#D4AF37] sm:text-[10px]">
-                  <span>स्वास्थ्य |</span>
-                  <span>संप्रदा |</span>
-                  <span>संबंध</span>
-                </div>
-              ) : (
-                <div className="mt-1 flex flex-col text-[11px] font-medium tracking-wide text-[#D4AF37] sm:text-[10px]">
-                  <span>SWASTHYA |</span>
-                  <span>SAMPRADAA |</span>
-                  <span>SAMBANDHA</span>
-                </div>
-              )}
+              <p className="mt-0.5 text-[11px] font-medium tracking-[0.2em] text-[#D4AF37] sm:text-[10px]">
+                {lang === 'mr' ? 'स्वास्थ्य | संप्रदा | संबंध' : 'SWASTHYA | SAMPRADAA | SAMBANDHA'}
+              </p>
             </div>
           </div>
         </Link>
