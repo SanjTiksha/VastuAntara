@@ -1,0 +1,67 @@
+name: Performance Audit
+
+on:
+  push:
+    branches:
+      - main
+      - perf/**
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Serve production build
+        run: |
+          npx serve dist -l 5000 &
+          echo $! > serve.pid
+        shell: bash
+
+      - name: Wait for server
+        run: sleep 5
+        shell: bash
+
+      - name: Run Lighthouse
+        run: |
+          npx lighthouse http://localhost:5000 \
+            --output=json \
+            --output=html \
+            --output-path=./lighthouse-report \
+            --chrome-flags="--headless" \
+            --throttling.cpuSlowdownMultiplier=4 \
+            --max-wait-for-load=10000
+        shell: bash
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -f serve.pid ]; then
+            kill $(cat serve.pid) || true
+          fi
+        shell: bash
+
+      - name: Enforce performance budgets
+        run: node scripts/check-performance.js ./lighthouse-report.report.json
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: |
+            lighthouse-report.report.html
+            lighthouse-report.report.json
