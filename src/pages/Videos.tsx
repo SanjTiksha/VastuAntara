@@ -1,7 +1,7 @@
-import { Helmet } from 'react-helmet-async'
 import VideoCard from '../components/VideoCard'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
+import PageMeta from '../components/PageMeta'
 
 type VideoEntry = {
   id: string
@@ -23,13 +23,7 @@ export default function Videos() {
 
   return (
     <section className="section-wrapper">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+      <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 animate-fadeIn">
           <h1 className="section-heading">{dict.sections.videosTitle}</h1>

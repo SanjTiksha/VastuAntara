@@ -1,9 +1,9 @@
-import { Helmet } from 'react-helmet-async'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { signInWithPopup } from 'firebase/auth'
 import { useLocaleContext } from '../context/LocaleContext'
 import { auth, googleProvider, hasFirebaseConfig } from '../lib/firebase'
 import useAuth from '../hooks/useAuth'
+import PageMeta from '../components/PageMeta'
 
 export default function AdminLogin() {
   const navigate = useNavigate()
@@ -38,19 +38,12 @@ export default function AdminLogin() {
 
   return (
     <section className="section-wrapper">
-      <Helmet>
-        <title>{`${dict.meta.siteName} | Admin Login`}</title>
-        <meta
-          name="description"
-          content="Access the VastuAntara admin dashboard using secure Google authentication."
-        />
-        <meta property="og:title" content={`${dict.meta.siteName} | Admin Login`} />
-        <meta
-          property="og:description"
-          content="Access the VastuAntara admin dashboard using secure Google authentication."
-        />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+      <PageMeta
+        title={`${dict.meta.siteName} | Admin Login`}
+        description="Access the VastuAntara admin dashboard using secure Google authentication."
+        image={dict.meta.defaultImage}
+        noIndex
+      />
       <div className="mx-auto max-w-md rounded-3xl border border-accent/30 bg-white p-8 shadow-soft-card">
         <h1 className="section-heading text-3xl">Admin Login</h1>
         <div className="gold-divider" />

@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
-import { Helmet } from 'react-helmet-async'
 import BlogCard from '../components/BlogCard'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
+import PageMeta from '../components/PageMeta'
 
 type BlogEntry = {
   id: string
@@ -49,15 +49,12 @@ export default function Blogs() {
     })
   }, [blogs, dict.blog.readTime, dict.blog.tagInsights, lang])
 
+  const pageTitle = `${dict.meta.siteName} | ${dict.meta.blogsTitle}`
+  const pageDescription = dict.meta.blogsDescription
+
   return (
     <section className="section-wrapper">
-      <Helmet>
-        <title>{`${dict.meta.siteName} | ${dict.meta.blogsTitle}`}</title>
-        <meta name="description" content={dict.meta.blogsDescription} />
-        <meta property="og:title" content={`${dict.meta.siteName} | ${dict.meta.blogsTitle}`} />
-        <meta property="og:description" content={dict.meta.blogsDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+      <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10">
           <h1 className="section-heading">{dict.sections.blogsTitle}</h1>

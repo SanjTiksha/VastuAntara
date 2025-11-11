@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async'
 import GalleryGrid from '../components/GalleryGrid'
 import HeroBanner from '../components/HeroBanner'
 import ServiceCard from '../components/ServiceCard'
@@ -6,6 +5,7 @@ import TestimonialCard from '../components/TestimonialCard'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
 import ReachVastuAntaraForm from '../components/ReachVastuAntaraForm'
+import PageMeta from '../components/PageMeta'
 
 type ServiceEntry = {
   id: string
@@ -43,13 +43,7 @@ export default function Home() {
 
   return (
     <div>
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+      <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <HeroBanner />
 
       <section className="section-wrapper bg-bgSoft">

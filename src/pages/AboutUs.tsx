@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet-async'
 import toast from 'react-hot-toast'
 import OwnerCard from '../components/OwnerCard'
 import SectionTitle from '../components/SectionTitle'
 import Spinner from '../components/Spinner'
 import { fetchAboutUs, type AboutUsContent } from '../services/aboutUs'
 import { useLocaleContext } from '../context/LocaleContext'
+import PageMeta from '../components/PageMeta'
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80'
 
@@ -116,13 +116,7 @@ export default function AboutUs() {
 
   return (
     <section className="section-wrapper bg-gradient-to-br from-primary/5 via-bgSoft to-accent/10">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={content.ownerPhoto || FALLBACK_IMAGE} />
-      </Helmet>
+      <PageMeta title={pageTitle} description={pageDescription} image={content.ownerPhoto || FALLBACK_IMAGE} />
       <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 sm:px-6 lg:px-8">
         <div className="animate-fadeIn">
           <OwnerCard

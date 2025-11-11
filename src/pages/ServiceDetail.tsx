@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import { where } from 'firebase/firestore'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
+import PageMeta from '../components/PageMeta'
 
 type ServiceEntry = {
   id: string
@@ -41,13 +41,7 @@ export default function ServiceDetail() {
 
   return (
     <article className="section-wrapper">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+      <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <h1 className="section-heading capitalize">{titleText}</h1>
         <div className="gold-divider" />

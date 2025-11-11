@@ -1,8 +1,8 @@
-import { Helmet } from 'react-helmet-async'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreDoc from '../hooks/useFirestoreDoc'
 import type { CompanyInfo } from '../types/company'
 import ReachVastuAntaraForm from '../components/ReachVastuAntaraForm'
+import PageMeta from '../components/PageMeta'
 
 export default function Contact() {
   const { dict } = useLocaleContext()
@@ -13,13 +13,7 @@ export default function Contact() {
 
   return (
     <section className="section-wrapper bg-gradient-to-br from-primary/5 via-bgSoft to-accent/10">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+      <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10">
           <h1 className="section-heading">{dict.contactPage.title}</h1>

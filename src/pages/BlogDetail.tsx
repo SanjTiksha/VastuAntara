@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import { where } from 'firebase/firestore'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
+import PageMeta from '../components/PageMeta'
 
 type BlogEntry = {
   id: string
@@ -32,16 +32,11 @@ export default function BlogDetail() {
   const descriptionSource = blog ? stripHtml(contentHtml) : dict.meta.blogDetailDescription
   const metaDescription = descriptionSource.slice(0, 155)
   const pageTitle = `${dict.meta.siteName} | ${titleText}`
+  const ogImage = blog?.image ?? dict.meta.defaultImage
 
   return (
-    <article className="section-wrapper">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={metaDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+    <article className="section-wrapper bg-bgSoft">
+      <PageMeta title={pageTitle} description={metaDescription} image={ogImage} />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <h1 className="section-heading capitalize">{titleText}</h1>
         <div className="gold-divider" />

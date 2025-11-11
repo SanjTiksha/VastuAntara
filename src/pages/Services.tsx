@@ -1,7 +1,7 @@
-import { Helmet } from 'react-helmet-async'
 import ServiceCard from '../components/ServiceCard'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
+import PageMeta from '../components/PageMeta'
 
 type ServiceEntry = {
   id: string
@@ -22,14 +22,8 @@ export default function Services() {
   const pageDescription = dict.meta.servicesDescription
 
   return (
-    <section className="section-wrapper">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+    <section className="section-wrapper bg-bgSoft">
+      <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 animate-fadeIn">
           <h1 className="section-heading">{dict.meta.servicesTitle}</h1>

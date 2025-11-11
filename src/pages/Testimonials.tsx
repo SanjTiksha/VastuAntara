@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async'
 import TestimonialCard from '../components/TestimonialCard'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
@@ -6,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import PageMeta from '../components/PageMeta'
 
 type TestimonialEntry = {
   id: string
@@ -28,13 +28,7 @@ export default function Testimonials() {
 
   return (
     <section className="section-wrapper">
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={dict.meta.defaultImage} />
-      </Helmet>
+      <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 text-center animate-fadeIn">
           <h1 className="section-heading">{dict.sections.testimonialsTitle}</h1>
