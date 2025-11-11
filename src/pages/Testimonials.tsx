@@ -1,10 +1,8 @@
+import { useMemo, useCallback } from 'react'
 import TestimonialCard from '../components/TestimonialCard'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
+import LazySwiper from '../components/LazySwiper'
 import PageMeta from '../components/PageMeta'
 
 type TestimonialEntry = {
@@ -23,6 +21,42 @@ export default function Testimonials() {
   const { data: testimonials, loading } = useFirestoreCollection<TestimonialEntry>('testimonials')
   const pageTitle = `${dict.meta.siteName} | ${dict.meta.testimonialsTitle}`
   const pageDescription = dict.meta.testimonialsDescription
+
+  const loadSwiperModules = useCallback(async () => {
+    const mod = await import('swiper/modules')
+    return [mod.Autoplay, mod.Pagination]
+  }, [])
+
+  const swiperProps = useMemo(
+    () =>
+      ({
+        spaceBetween: 24,
+        autoplay: { delay: 6000, disableOnInteraction: false },
+        pagination: { clickable: true },
+        breakpoints: {
+          0: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+        },
+        className:
+          '[&_.swiper-pagination-bullet]:bg-accent [&_.swiper-pagination-bullet-active]:w-6 [&_.swiper-pagination-bullet-active]:rounded-full [&_.swiper-pagination-bullet-active]:bg-primary',
+      }) satisfies Record<string, unknown>,
+    [],
+  )
+
+  const testimonialSlides = useMemo(
+    () =>
+      testimonials.map(item => (
+        <div key={item.id} className="pb-12">
+          <TestimonialCard
+            name={item.name}
+            message={lang === 'en' ? item.text_en : item.text_mr ?? item.text_en}
+            rating={item.rating}
+            image={item.image}
+          />
+        </div>
+      )),
+    [lang, testimonials],
+  )
 
   return (
     <section className="section-wrapper">
@@ -45,28 +79,9 @@ export default function Testimonials() {
             ))}
           </div>
         ) : testimonials.length > 0 ? (
-          <Swiper
-            modules={[Autoplay, Pagination]}
-            spaceBetween={24}
-            autoplay={{ delay: 6000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            breakpoints={{
-              0: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
-            }}
-            className="[&_.swiper-pagination-bullet]:bg-accent [&_.swiper-pagination-bullet-active]:w-6 [&_.swiper-pagination-bullet-active]:rounded-full [&_.swiper-pagination-bullet-active]:bg-primary"
-          >
-            {testimonials.map(item => (
-              <SwiperSlide key={item.id} className="pb-12">
-                <TestimonialCard
-                  name={item.name}
-                  message={lang === 'en' ? item.text_en : item.text_mr ?? item.text_en}
-                  rating={item.rating}
-                  image={item.image}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <LazySwiper swiperProps={swiperProps} placeholderHeight={280} modulesLoader={loadSwiperModules}>
+            {testimonialSlides}
+          </LazySwiper>
         ) : (
           <div className="card-surface p-6 text-center text-primary/60">{dict.sections.testimonialsEmpty}</div>
         )}
