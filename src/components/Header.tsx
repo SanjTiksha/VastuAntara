@@ -44,19 +44,31 @@ export default function Header() {
     <header className={headerClassName}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="logo-frame" aria-label="VastuAntara Home">
-          <div className="flex flex-col items-center justify-center text-center py-1 sm:py-0">
+          <div className="flex items-center justify-center rounded-2xl bg-[#7A1B1B] px-4 py-2 text-white shadow-md sm:px-3 sm:py-1">
             <img
               src="/images/Swastik.png"
               alt="VastuAntara"
-              className="mb-1 h-12 w-12 sm:h-10 sm:w-10"
+              className="mr-3 h-12 w-12 flex-shrink-0 sm:mr-2 sm:h-10 sm:w-10"
               loading="eager"
             />
-            <h1 className="text-lg font-semibold leading-snug text-[#7a1b1b] sm:text-xl">
-              {lang === 'mr' ? 'वास्तुअंतरा' : 'VastuAntara'}
-            </h1>
-            <p className="mt-0.5 text-[10px] tracking-[0.15em] text-amber-700 sm:text-xs">
-              {lang === 'mr' ? 'स्वास्थ्य • संप्रदा • संबंध' : 'SWASTHYA • SAMPRADAA • SAMBANDHA'}
-            </p>
+            <div className="flex flex-col justify-center text-left">
+              <h1 className="text-2xl font-semibold leading-tight text-white sm:text-xl">
+                {lang === 'mr' ? 'वास्तुअंतरा' : 'VastuAntara'}
+              </h1>
+              <div className="mt-0.5 flex flex-wrap items-center text-[11px] font-medium tracking-wide text-[#FFD65A] sm:text-[10px]">
+                {(lang === 'mr'
+                  ? ['स्वास्थ्य', 'संप्रदा', 'संबंध']
+                  : ['Swasthya', 'Sampradaa', 'Sambandha']
+                ).map((word, index, array) => (
+                  <span key={word} className="flex items-center">
+                    {word}
+                    {index < array.length - 1 && (
+                      <span className="mx-1 text-[#FFD65A]">{lang === 'mr' ? '•' : '|'}</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </Link>
 
