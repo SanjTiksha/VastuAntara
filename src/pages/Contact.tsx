@@ -102,6 +102,7 @@ export default function Contact() {
   )
 
   const socialEntries = Object.entries(companyInfo?.social ?? {}).filter(([, url]) => !!url) as Array<[string, string]>
+  const footerSocialLabels = dict.footer?.social as Record<string, string> | undefined
 
   const displayPhone = (value?: string) => {
     if (!value) return undefined
@@ -249,9 +250,7 @@ export default function Contact() {
                   </header>
                   <div className="flex flex-wrap gap-3">
                     {socialEntries.map(([platform, url]) => {
-                      const label =
-                        dict.footer?.social?.[platform] ??
-                        platform.charAt(0).toUpperCase() + platform.slice(1)
+                      const label = footerSocialLabels?.[platform] ?? platform.charAt(0).toUpperCase() + platform.slice(1)
                       return (
                         <a
                           key={platform}
