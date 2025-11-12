@@ -81,7 +81,7 @@ export default function Header() {
 
         <div className="hidden items-center gap-2 md:flex">
           <LanguageToggle />
-          <Link to="/contact" className="btn-primary hidden sm:inline-flex">
+          <Link to="/contact#reach-form" className="btn-primary hidden sm:inline-flex">
             {dict.cta.book}
           </Link>
         </div>
@@ -120,7 +120,7 @@ export default function Header() {
                 </NavLink>
               ))}
               <Link
-                to="/contact"
+                to="/contact#reach-form"
                 onClick={() => setMenuOpen(false)}
                 className="btn-primary mt-2 justify-center"
               >

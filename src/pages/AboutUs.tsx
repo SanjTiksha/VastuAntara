@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import OwnerCard from '../components/OwnerCard'
 import SectionTitle from '../components/SectionTitle'
@@ -6,13 +7,16 @@ import Spinner from '../components/Spinner'
 import { fetchAboutUs, type AboutUsContent } from '../services/aboutUs'
 import { useLocaleContext } from '../context/LocaleContext'
 import PageMeta from '../components/PageMeta'
+import useFirestoreDoc from '../hooks/useFirestoreDoc'
+import type { CompanyInfo } from '../types/company'
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80'
 
 export default function AboutUs() {
   const [content, setContent] = useState<AboutUsContent | null>(null)
   const [loading, setLoading] = useState(true)
-  const { lang } = useLocaleContext()
+  const { lang, dict } = useLocaleContext()
+  const { data: companyInfo } = useFirestoreDoc<CompanyInfo>('companyInfo', 'default')
 
   const labels = lang === 'mr'
     ? {
@@ -21,7 +25,8 @@ export default function AboutUs() {
         websitePurpose: 'हे संकेतस्थळ का तयार केले',
         office: 'आमचे कार्यालय',
         messageTitle: 'यांचा संदेश',
-        lastUpdated: 'शेवटचे अद्यतन'
+        lastUpdated: 'शेवटचे अद्यतन',
+        officeSubtitle: 'आमच्या कार्यालयाविषयी अधिक जाणून घेण्यासाठी खालील दुव्यावर क्लिक करा.'
       }
     : {
         vision: 'Our Vision',
@@ -29,8 +34,19 @@ export default function AboutUs() {
         websitePurpose: 'Why We Created This Website',
         office: 'Our Office',
         messageTitle: 'Message from',
-        lastUpdated: 'Last updated on'
+        lastUpdated: 'Last updated on',
+        officeSubtitle: 'Tap the link below to explore the full address and contact details.'
       }
+
+  const officeBlurb = useMemo(() => {
+    if (!companyInfo) return labels.officeSubtitle
+    const preferred = lang === 'mr' ? companyInfo.officeBlurb_mr ?? companyInfo.officeBlurb_en : companyInfo.officeBlurb_en ?? companyInfo.officeBlurb_mr
+    return preferred || labels.officeSubtitle
+  }, [companyInfo, lang, labels.officeSubtitle])
+
+  const visitCtaLabel =
+    dict.contactPage?.officeSection?.visitLink ??
+    (lang === 'mr' ? 'आम्हाला भेट द्या' : 'Visit us at VastuAntara')
 
   useEffect(() => {
     let isMounted = true
@@ -141,19 +157,17 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {content.officePhoto && (
-          <div className="animate-fadeIn space-y-4 text-center">
-            <SectionTitle title={labels.office} align="center" />
-            <div className="mx-auto max-w-3xl overflow-hidden rounded-3xl border border-primary/10 shadow-soft-card">
-              <img
-                src={content.officePhoto}
-                alt="Our office"
-                className="w-full object-cover"
-                loading="lazy"
-              />
-            </div>
+        <div className="animate-fadeIn space-y-6 text-center">
+          <SectionTitle title={labels.office} subtitle={officeBlurb} align="center" />
+          <div>
+            <Link
+              to="/contact"
+              className="btn-primary inline-flex items-center gap-2"
+            >
+              {visitCtaLabel} →
+            </Link>
           </div>
-        )}
+        </div>
 
         <div className="space-y-6 animate-fadeIn">
           <SectionTitle
