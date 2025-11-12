@@ -22,7 +22,7 @@ export default function Videos() {
   const pageDescription = dict.meta.videosDescription
 
   return (
-    <section className="section-wrapper">
+    <section className="section-wrapper pt-16 sm:pt-16 lg:pt-16">
       <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 animate-fadeIn">

@@ -22,7 +22,7 @@ export default function Services() {
   const pageDescription = dict.meta.servicesDescription
 
   return (
-    <section className="section-wrapper bg-bgSoft">
+    <section className="section-wrapper pt-16 sm:pt-16 lg:pt-16 bg-bgSoft">
       <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 animate-fadeIn">

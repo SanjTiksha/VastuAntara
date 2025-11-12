@@ -150,7 +150,7 @@ export default function Contact() {
   }, [location.hash])
 
   return (
-    <section className="section-wrapper bg-gradient-to-br from-primary/5 via-bgSoft to-accent/10">
+    <section className="section-wrapper pt-16 sm:pt-16 lg:pt-16 bg-gradient-to-br from-primary/5 via-bgSoft to-accent/10">
       <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10">

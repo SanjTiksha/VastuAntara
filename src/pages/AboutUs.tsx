@@ -95,7 +95,7 @@ export default function AboutUs() {
 
   if (!content) {
     return (
-      <section className="section-wrapper">
+      <section className="section-wrapper pt-16 sm:pt-16 lg:pt-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="section-heading">About VastuAntara</h1>
           <div className="gold-divider mx-auto" />
@@ -131,7 +131,7 @@ export default function AboutUs() {
   })()
 
   return (
-    <section className="section-wrapper bg-gradient-to-br from-primary/5 via-bgSoft to-accent/10">
+    <section className="section-wrapper pt-16 sm:pt-16 lg:pt-16 bg-gradient-to-br from-primary/5 via-bgSoft to-accent/10">
       <PageMeta title={pageTitle} description={pageDescription} image={content.ownerPhoto || FALLBACK_IMAGE} />
       <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 sm:px-6 lg:px-8">
         <div className="animate-fadeIn">

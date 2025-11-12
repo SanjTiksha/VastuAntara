@@ -43,7 +43,7 @@ export default function ServiceDetail() {
   const pageDescription = service ? descriptionText : dict.meta.serviceDetailDescription
 
   return (
-    <article className="section-wrapper">
+    <article className="section-wrapper pt-16 sm:pt-16 lg:pt-16">
       <PageMeta title={pageTitle} description={pageDescription} image={dict.meta.defaultImage} />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <button

@@ -41,7 +41,7 @@ export default function BlogDetail() {
   const ogImage = blog?.image ?? dict.meta.defaultImage
 
   return (
-    <article className="section-wrapper bg-bgSoft">
+    <article className="section-wrapper pt-16 sm:pt-16 lg:pt-16 bg-bgSoft">
       <PageMeta title={pageTitle} description={metaDescription} image={ogImage} />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <button
