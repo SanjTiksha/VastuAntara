@@ -71,6 +71,30 @@
     "description": "Share your enquiry and we will respond with a personalised Vastu consultation plan within 24 hours.",
     "whatsappCta": "Prefer WhatsApp? Start a quick chat.",
     "whatsappButton": "Chat on WhatsApp",
+    "officeSection": {
+      "title": "Visit our office",
+      "subtitle": "Step into our Pune studio for a personalised Vastu guidance experience.",
+      "addressLabel": "Office address",
+      "addressFallback": "Address will be shared soon.",
+      "visitLink": "Visit us at VastuAntara",
+      "cta": "Open in Google Maps"
+    },
+    "contactSection": {
+      "title": "Contact our team",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email"
+    },
+    "socialSection": {
+      "title": "Connect online",
+      "subtitle": "Follow us for Vastu stories, remedies, and studio updates."
+    },
+    "mapSection": {
+      "title": "Find us on the map",
+      "description": "Preview the location and get turn-by-turn directions for your visit.",
+      "cta": "Open in Google Maps",
+      "directionsCta": "Get directions",
+      "placeholder": "Map information will be available soon."
+    },
     "form": {
       "title": "Reach VastuAntara",
       "subtitle": "Share your details and we’ll connect with you personally on WhatsApp within 24 hours.",

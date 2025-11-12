@@ -22,9 +22,12 @@ const INITIAL_STATE: FormState = {
 
 interface ReachVastuAntaraFormProps {
   whatsappNumber?: string
+  title?: string
+  subtitle?: string
+  id?: string
 }
 
-export default function ReachVastuAntaraForm({ whatsappNumber }: ReachVastuAntaraFormProps) {
+export default function ReachVastuAntaraForm({ whatsappNumber, title, subtitle, id }: ReachVastuAntaraFormProps) {
   const { dict } = useLocaleContext()
   const [form, setForm] = useState<FormState>(INITIAL_STATE)
 
@@ -50,6 +53,9 @@ export default function ReachVastuAntaraForm({ whatsappNumber }: ReachVastuAntar
   }
 
   const isMobile = useMemo(() => /Android|iPhone|iPad|iPod/i.test(typeof navigator !== 'undefined' ? navigator.userAgent : ''), [])
+
+  const resolvedTitle = title || formDict.title
+  const resolvedSubtitle = subtitle || formDict.subtitle
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = event.target
@@ -88,12 +94,13 @@ export default function ReachVastuAntaraForm({ whatsappNumber }: ReachVastuAntar
 
   return (
     <form
+      id={id}
       onSubmit={handleSubmit}
       className="card-surface mx-auto max-w-xl space-y-4 rounded-3xl bg-white p-6 shadow-soft-card md:p-8"
     >
       <header className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold text-primary md:text-3xl">{formDict.title}</h2>
-        <p className="text-sm text-primary/60 md:text-base">{formDict.subtitle}</p>
+        <h2 className="text-2xl font-semibold text-primary md:text-3xl">{resolvedTitle}</h2>
+        <p className="text-sm text-primary/60 md:text-base">{resolvedSubtitle}</p>
       </header>
 
       <div>
