@@ -20,6 +20,8 @@ export default function SocialMediaLinks() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState<Omit<SocialLink, 'id'>>({
     name: '',
+    name_en: '',
+    name_mr: '',
     url: '',
     icon: '',
     active: true,
@@ -63,6 +65,8 @@ export default function SocialMediaLinks() {
   const resetForm = () => {
     setForm({
       name: '',
+      name_en: '',
+      name_mr: '',
       url: '',
       icon: '',
       active: true,
@@ -75,6 +79,8 @@ export default function SocialMediaLinks() {
   const handleEdit = (link: SocialLink) => {
     setForm({
       name: link.name,
+      name_en: link.name_en ?? '',
+      name_mr: link.name_mr ?? '',
       url: link.url,
       icon: link.icon,
       active: link.active,
@@ -154,7 +160,7 @@ export default function SocialMediaLinks() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="mb-2 block text-sm font-semibold text-primary" htmlFor="name">
-                  Platform Name <span className="text-accent">*</span>
+                  Platform Name (Default) <span className="text-accent">*</span>
                 </label>
                 <input
                   id="name"
@@ -165,6 +171,36 @@ export default function SocialMediaLinks() {
                   className="w-full rounded-full border border-primary/20 bg-white px-4 py-3 text-sm text-primary placeholder:text-primary/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
                   placeholder="e.g., Instagram"
                 />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-primary" htmlFor="name_en">
+                    Name (English)
+                  </label>
+                  <input
+                    id="name_en"
+                    type="text"
+                    value={form.name_en ?? ''}
+                    onChange={e => handleChange('name_en', e.target.value)}
+                    className="w-full rounded-full border border-primary/20 bg-white px-4 py-3 text-sm text-primary placeholder:text-primary/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+                    placeholder="e.g., Instagram"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-primary" htmlFor="name_mr">
+                    Name (Marathi)
+                  </label>
+                  <input
+                    id="name_mr"
+                    type="text"
+                    value={form.name_mr ?? ''}
+                    onChange={e => handleChange('name_mr', e.target.value)}
+                    className="w-full rounded-full border border-primary/20 bg-white px-4 py-3 text-sm text-primary placeholder:text-primary/40 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+                    placeholder="e.g., इंस्टाग्राम"
+                  />
+                </div>
               </div>
 
               <div>

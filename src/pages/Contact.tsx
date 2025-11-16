@@ -8,7 +8,6 @@ import type { SocialLink } from '../types/socialLink'
 import ReachVastuAntaraForm from '../components/ReachVastuAntaraForm'
 import PageMeta from '../components/PageMeta'
 import { formatPhoneNumber } from '../lib/helpers'
-import { where } from 'firebase/firestore'
 
 function extractWhatsappNumber(phone?: string | null) {
   if (!phone) return undefined
@@ -104,10 +103,17 @@ export default function Contact() {
     (contact): contact is NonNullable<typeof contact> => Boolean(contact?.name),
   )
 
-  const { data: socialLinks = [] } = useFirestoreCollection<SocialLink>('social_links', {
-    constraints: [where('active', '==', true)],
+  const { data: allSocialLinks = [] } = useFirestoreCollection<SocialLink>('social_links', {
     orderField: 'order',
   })
+  
+  const socialLinks = allSocialLinks.filter(link => link.active)
+
+  const getLocalizedName = (link: SocialLink): string => {
+    if (lang === 'mr' && link.name_mr) return link.name_mr
+    if (lang === 'en' && link.name_en) return link.name_en
+    return link.name // Fallback to default name
+  }
 
   const displayPhone = (value?: string) => {
     if (!value) return undefined
@@ -262,7 +268,7 @@ export default function Contact() {
                         rel="noreferrer"
                         className="inline-flex items-center gap-2 rounded-full border border-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-accent hover:text-accent"
                       >
-                        {link.name}
+                        {getLocalizedName(link)}
                       </a>
                     ))}
                   </div>

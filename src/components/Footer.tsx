@@ -5,7 +5,6 @@ import useFirestoreDoc from '../hooks/useFirestoreDoc'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
 import type { CompanyInfo } from '../types/company'
 import type { SocialLink } from '../types/socialLink'
-import { where } from 'firebase/firestore'
 
 export default function Footer() {
   const { dict, lang } = useLocaleContext()
@@ -14,10 +13,17 @@ export default function Footer() {
   const email = companyInfo?.email ?? 'info@example.com'
   const address = companyInfo?.address ?? 'Pune, Maharashtra, India'
 
-  const { data: socialLinks = [] } = useFirestoreCollection<SocialLink>('social_links', {
-    constraints: [where('active', '==', true)],
+  const { data: allSocialLinks = [] } = useFirestoreCollection<SocialLink>('social_links', {
     orderField: 'order',
   })
+  
+  const socialLinks = allSocialLinks.filter(link => link.active)
+
+  const getLocalizedName = (link: SocialLink): string => {
+    if (lang === 'mr' && link.name_mr) return link.name_mr
+    if (lang === 'en' && link.name_en) return link.name_en
+    return link.name // Fallback to default name
+  }
 
   const name = lang === 'mr' ? companyInfo?.name_mr ?? 'वास्तुअंतरा' : companyInfo?.name_en ?? 'VastuAntara'
   const tagline =
@@ -91,21 +97,23 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-accent"
-                  aria-label={link.name}
+                  aria-label={getLocalizedName(link)}
                 >
-                  {link.name}
+                  {getLocalizedName(link)}
                 </a>
               ))}
-              {hasFirebaseConfig && (
+            </div>
+            {hasFirebaseConfig && (
+              <div className="mt-4 border-t border-white/20 pt-4">
                 <Link
                   to="/login"
-                  className="hover:text-accent"
+                  className="text-sm text-white/75 hover:text-accent"
                   aria-label={dict.footer?.social?.adminLogin ?? 'Admin Login'}
                 >
                   {dict.footer?.social?.adminLogin ?? (lang === 'en' ? 'Admin Login' : 'प्रशासक लॉगिन')}
                 </Link>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="mt-12 border-t border-white/20 pt-6 text-white/70">
