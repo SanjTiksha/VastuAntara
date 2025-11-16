@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreCollection from '../hooks/useFirestoreCollection'
 import useFirestoreDoc from '../hooks/useFirestoreDoc'
@@ -16,12 +16,33 @@ interface HeroBannerProps {
   ctaLink?: string
 }
 
-export default function HeroBanner({ ctaLink = '/contact' }: HeroBannerProps) {
+export default function HeroBanner({ ctaLink = '/contact#reach-form' }: HeroBannerProps) {
   const { lang, dict } = useLocaleContext()
+  const location = useLocation()
   const { data: galleryImages } = useFirestoreCollection<GalleryEntry>('gallery')
   const { data: companyInfo } = useFirestoreDoc<CompanyInfo>('companyInfo', 'default')
   const collageImages = galleryImages.slice(0, 4)
   const placeholderCount = Math.max(0, 4 - collageImages.length)
+
+  const handleBookConsultation = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If we're on home page, scroll to form instead of navigating
+    if (location.pathname === '/') {
+      e.preventDefault()
+      const formElement = document.getElementById('reach-form')
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        // Focus the form after a short delay
+        setTimeout(() => {
+          formElement.focus({ preventScroll: true })
+          const firstInput = formElement.querySelector<HTMLElement>('input, textarea')
+          if (firstInput) {
+            firstInput.focus({ preventScroll: true })
+          }
+        }, 300)
+      }
+    }
+    // Otherwise, let the Link handle navigation to /contact#reach-form
+  }
 
   const heading =
     lang === 'en' ? companyInfo?.name_en ?? 'VastuAntara' : companyInfo?.name_mr ?? 'वास्तुअंतरा'
@@ -48,6 +69,7 @@ export default function HeroBanner({ ctaLink = '/contact' }: HeroBannerProps) {
           <div className="mt-6 flex flex-wrap items-center gap-4 md:mt-8">
             <Link
               to={ctaLink}
+              onClick={handleBookConsultation}
               className="px-6 py-3 font-semibold text-white transition-all duration-300 rounded-full bg-gradient-to-r from-[#6b0f1a] to-[#c9a24b] hover:opacity-90"
             >
               {dict.cta.book}

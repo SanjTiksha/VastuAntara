@@ -124,7 +124,7 @@ export default function Home() {
             <div className="gold-divider mx-auto" />
             <p className="text-primary/70">{dict.sections.contactDescription}</p>
           </div>
-          <ReachVastuAntaraForm />
+          <ReachVastuAntaraForm id="reach-form" />
         </div>
       </section>
     </div>
