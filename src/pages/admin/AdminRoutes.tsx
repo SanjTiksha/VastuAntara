@@ -5,6 +5,7 @@ import Spinner from '../../components/Spinner'
 const AdminDashboard = lazy(() => import('../AdminDashboard'))
 const AdminContentEditor = lazy(() => import('../AdminContentEditor'))
 const AboutUsAdmin = lazy(() => import('./AboutUsAdmin'))
+const SocialMediaLinks = lazy(() => import('./SocialMediaLinks'))
 
 export default function AdminRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function AdminRoutes() {
         <Route index element={<AdminDashboard />} />
         <Route path="about-us" element={<AboutUsAdmin />} />
         <Route path="content/:section" element={<AdminContentEditor />} />
+        <Route path="social-media" element={<SocialMediaLinks />} />
         <Route path="*" element={<Navigate to="." replace />} />
       </Routes>
     </Suspense>

@@ -21,12 +21,6 @@ export interface CompanyInfo {
   phone: string
   email: string
   mapEmbedUrl?: string
-  social: {
-    facebook?: string
-    youtube?: string
-    whatsapp?: string
-    [key: string]: string | undefined
-  }
   officeImage?: OfficeImage
   officeBlurb_en?: string
   officeBlurb_mr?: string

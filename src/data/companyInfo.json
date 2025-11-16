@@ -7,12 +7,6 @@
   "phone": "+91-9876543210",
   "email": "info@vastuantara.in",
   "mapEmbedUrl": "https://maps.google.com/...",
-  "social": {
-    "facebook": "https://facebook.com/",
-    "youtube": "https://youtube.com/",
-    "whatsapp": "",
-    "instagram": "https://instagram.com/"
-  },
   "officeImage": {
     "url": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
     "alt_en": "Exterior of the VastuAntara consultation studio",

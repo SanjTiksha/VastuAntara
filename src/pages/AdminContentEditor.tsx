@@ -35,7 +35,7 @@ type SectionConfig = {
 const sectionConfigs: Record<string, SectionConfig> = {
   company: {
     title: 'Company Information',
-    description: 'Update your brand identity, contact details, and social presence shown across the site.',
+    description: 'Update your brand identity and contact details shown across the site.',
     dataKey: 'companyInfo',
     mode: 'document',
     documentId: 'default',
@@ -49,10 +49,6 @@ const sectionConfigs: Record<string, SectionConfig> = {
       { name: 'email', label: 'Email', required: true },
       { name: 'mapEmbedUrl', label: 'Map Embed URL' },
       { name: 'mapDirectionsUrl', label: 'Map Directions URL' },
-      { name: 'social.facebook', label: 'Facebook URL' },
-      { name: 'social.youtube', label: 'YouTube URL' },
-      { name: 'social.whatsapp', label: 'WhatsApp URL' },
-      { name: 'social.instagram', label: 'Instagram URL' },
       { name: 'officeImage.url', label: 'Office Image URL' },
       { name: 'officeImage.alt_en', label: 'Office Image Alt (English)' },
       { name: 'officeImage.alt_mr', label: 'Office Image Alt (Marathi)' },

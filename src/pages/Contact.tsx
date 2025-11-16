@@ -2,10 +2,13 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useLocaleContext } from '../context/LocaleContext'
 import useFirestoreDoc from '../hooks/useFirestoreDoc'
+import useFirestoreCollection from '../hooks/useFirestoreCollection'
 import type { CompanyInfo } from '../types/company'
+import type { SocialLink } from '../types/socialLink'
 import ReachVastuAntaraForm from '../components/ReachVastuAntaraForm'
 import PageMeta from '../components/PageMeta'
 import { formatPhoneNumber } from '../lib/helpers'
+import { where } from 'firebase/firestore'
 
 function extractWhatsappNumber(phone?: string | null) {
   if (!phone) return undefined
@@ -101,10 +104,10 @@ export default function Contact() {
     (contact): contact is NonNullable<typeof contact> => Boolean(contact?.name),
   )
 
-  const socialEntries = Object.entries(companyInfo?.social ?? {}).filter(([, url]) => !!url) as Array<[string, string]>
-  const footerSocialLabels = dict.footer?.social as Record<string, string> | undefined
-  const isSocialLabelKey = (value: string, labels: Record<string, string>): value is keyof typeof labels =>
-    Object.prototype.hasOwnProperty.call(labels, value)
+  const { data: socialLinks = [] } = useFirestoreCollection<SocialLink>('social_links', {
+    constraints: [where('active', '==', true)],
+    orderField: 'order',
+  })
 
   const displayPhone = (value?: string) => {
     if (!value) return undefined
@@ -244,30 +247,24 @@ export default function Contact() {
                 </article>
               )}
 
-              {socialEntries.length > 0 && (
+              {socialLinks.length > 0 && (
                 <article className="card-surface space-y-4 rounded-3xl bg-white p-6 shadow-soft-card md:p-8">
                   <header className="space-y-1">
                     <h3 className="text-xl font-semibold text-primary md:text-2xl">{socialHeading}</h3>
                     <p className="text-sm text-primary/60">{socialSubtitle}</p>
                   </header>
                   <div className="flex flex-wrap gap-3">
-                    {socialEntries.map(([platform, url]) => {
-                      const label =
-                        footerSocialLabels && isSocialLabelKey(platform, footerSocialLabels)
-                          ? footerSocialLabels[platform]
-                          : platform.charAt(0).toUpperCase() + platform.slice(1)
-                      return (
-                        <a
-                          key={platform}
-                          href={url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-2 rounded-full border border-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-accent hover:text-accent"
-                        >
-                          {label}
-                        </a>
-                      )
-                    })}
+                    {socialLinks.map(link => (
+                      <a
+                        key={link.id}
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full border border-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-accent hover:text-accent"
+                      >
+                        {link.name}
+                      </a>
+                    ))}
                   </div>
                 </article>
               )}

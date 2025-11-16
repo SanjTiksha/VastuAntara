@@ -2,7 +2,10 @@ import { Link } from 'react-router-dom'
 import { useLocaleContext } from '../context/LocaleContext'
 import { hasFirebaseConfig } from '../lib/firebase'
 import useFirestoreDoc from '../hooks/useFirestoreDoc'
+import useFirestoreCollection from '../hooks/useFirestoreCollection'
 import type { CompanyInfo } from '../types/company'
+import type { SocialLink } from '../types/socialLink'
+import { where } from 'firebase/firestore'
 
 export default function Footer() {
   const { dict, lang } = useLocaleContext()
@@ -10,8 +13,11 @@ export default function Footer() {
   const phone = companyInfo?.phone ?? '+91-0000000000'
   const email = companyInfo?.email ?? 'info@example.com'
   const address = companyInfo?.address ?? 'Pune, Maharashtra, India'
-  const social = companyInfo?.social ?? {}
-  const socialLabels = dict.footer?.social as Record<string, string> | undefined
+
+  const { data: socialLinks = [] } = useFirestoreCollection<SocialLink>('social_links', {
+    constraints: [where('active', '==', true)],
+    orderField: 'order',
+  })
 
   const name = lang === 'mr' ? companyInfo?.name_mr ?? 'वास्तुअंतरा' : companyInfo?.name_en ?? 'VastuAntara'
   const tagline =
@@ -78,36 +84,25 @@ export default function Footer() {
               {lang === 'en' ? 'Connect' : 'कनेक्ट'}
             </h3>
             <div className="mt-4 flex flex-wrap gap-3 text-white/75">
-              <a
-                href={social.facebook}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-accent"
-                aria-label={socialLabels?.facebook ?? 'Facebook'}
-              >
-                {socialLabels?.facebook ?? (lang === 'en' ? 'Facebook' : 'फेसबुक')}
-              </a>
-              <a
-                href={social.youtube}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-accent"
-                aria-label={socialLabels?.youtube ?? 'YouTube'}
-              >
-                {socialLabels?.youtube ?? (lang === 'en' ? 'YouTube' : 'यूट्यूब')}
-              </a>
-              <a
-                href={social.whatsapp}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-accent"
-                aria-label={socialLabels?.whatsapp ?? 'WhatsApp'}
-              >
-                {socialLabels?.whatsapp ?? (lang === 'en' ? 'WhatsApp' : 'व्हॉट्सअॅप')}
-              </a>
+              {socialLinks.map(link => (
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-accent"
+                  aria-label={link.name}
+                >
+                  {link.name}
+                </a>
+              ))}
               {hasFirebaseConfig && (
-                <Link to="/login" className="hover:text-accent" aria-label={socialLabels?.adminLogin ?? 'Admin Login'}>
-                  {socialLabels?.adminLogin ?? (lang === 'en' ? 'Admin Login' : 'प्रशासक लॉगिन')}
+                <Link
+                  to="/login"
+                  className="hover:text-accent"
+                  aria-label={dict.footer?.social?.adminLogin ?? 'Admin Login'}
+                >
+                  {dict.footer?.social?.adminLogin ?? (lang === 'en' ? 'Admin Login' : 'प्रशासक लॉगिन')}
                 </Link>
               )}
             </div>

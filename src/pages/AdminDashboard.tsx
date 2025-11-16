@@ -13,6 +13,7 @@ const adminSections = [
   { to: '/admin/content/blogs', label: 'Blogs' },
   { to: '/admin/content/testimonials', label: 'Testimonials' },
   { to: '/admin/content/messages', label: 'Messages' },
+  { to: '/admin/social-media', label: 'Social Media Links' },
 ]
 
 export default function AdminDashboard() {
