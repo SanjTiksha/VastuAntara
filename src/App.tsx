@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Spinner from './components/Spinner'
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange'
+import WhatsAppFloat from './components/WhatsAppFloat'
 
 const Home = lazy(() => import('./pages/Home'))
 const AboutUs = lazy(() => import('./pages/AboutUs'))
@@ -51,6 +52,7 @@ function App() {
           </Suspense>
         </main>
         <Footer />
+        <WhatsAppFloat />
       </div>
       <ScrollToTop smooth color="#731B1B" style={{ borderRadius: '50%' }} top={200} aria-label="Scroll to top" />
       <Toaster
