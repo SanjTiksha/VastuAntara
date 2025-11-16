@@ -25,33 +25,17 @@ export default function Footer() {
     return link.name // Fallback to default name
   }
 
-  const name = lang === 'mr' ? companyInfo?.name_mr ?? 'वास्तुअंतरा' : companyInfo?.name_en ?? 'VastuAntara'
-  const tagline =
-    lang === 'mr'
-      ? companyInfo?.tagline_mr ?? 'स्वास्थ्य | संप्रदा | संबंध'
-      : companyInfo?.tagline_en ?? 'Swasthya | Sampradaa | Sambandha'
-
   return (
     <footer className="bg-gradient-to-br from-primary via-primary/95 to-accent/80 text-siteWhite">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
-            <div className="inline-flex items-center gap-3 rounded-2xl border border-[#A67C00] bg-white px-4 py-3 shadow-sm">
-              <img
-                src="/images/Swastik.png"
-                alt="VastuAntara Logo"
-                className="h-10 w-10 object-contain md:h-12 md:w-12"
-                loading="lazy"
-              />
-              <div className="leading-tight">
-                <span className="block text-[20px] font-semibold text-[#7C0000] md:text-[22px]">
-                  {name}
-                </span>
-                <span className="block text-sm uppercase tracking-[0.3em] text-[#A67C00]">
-                  {tagline}
-                </span>
-              </div>
-            </div>
+            <img
+              src={lang === 'mr' ? '/images/Marathi logo png.png' : '/images/kunal-01.png'}
+              alt="VastuAntara Logo"
+              className="h-12 w-auto rounded-lg border-2 border-white sm:h-14 md:h-16 lg:h-20 object-contain"
+              loading="lazy"
+            />
             <p className="mt-4 text-sm text-white/80">
               {lang === 'en'
                 ? 'Expert Vastu Shastra guidance blending tradition with modern living for harmonious spaces.'
